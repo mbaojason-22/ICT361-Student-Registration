@@ -23,7 +23,8 @@
             </intent-filter>
 
         </activity>
-
+        <activity
+            android:name=".StudentActivity" />
     </application>
 
 </manifest>

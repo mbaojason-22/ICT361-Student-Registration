@@ -1,11 +1,11 @@
 package com.example.ict361studentregistration;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Load the Welcome screen
         setContentView(R.layout.activity_main);
 
         // Connect Java to the buttons in activity_main.xml
@@ -27,76 +28,75 @@ public class MainActivity extends AppCompatActivity {
 
 
         // STUDENT BUTTON
-        studentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        studentButton.setOnClickListener(v -> {
 
-                // Small press animation
-                view.animate()
-                        .scaleX(0.96f)
-                        .scaleY(0.96f)
-                        .setDuration(80)
-                        .withEndAction(() -> {
+            // Open the Student Portal
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    StudentActivity.class
+            );
 
-                            view.animate()
-                                    .scaleX(1f)
-                                    .scaleY(1f)
-                                    .setDuration(80)
-                                    .start();
+            startActivity(intent);
 
-                            Toast.makeText(
-                                    MainActivity.this,
-                                    "Student section coming next",
-                                    Toast.LENGTH_SHORT
-                            ).show();
-
-                        })
-                        .start();
-            }
         });
 
 
         // LECTURER BUTTON
-        lecturerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        lecturerButton.setOnClickListener(v -> {
 
-                // Small press animation
-                view.animate()
-                        .scaleX(0.96f)
-                        .scaleY(0.96f)
-                        .setDuration(80)
-                        .withEndAction(() -> {
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Lecturer Portal")
+                    .setMessage(
+                            "The Lecturer Portal is used by authorised " +
+                                    "lecturers to manage student registration records.\n\n" +
 
-                            view.animate()
-                                    .scaleX(1f)
-                                    .scaleY(1f)
-                                    .setDuration(80)
-                                    .start();
+                                    "Lecturers will be able to:\n\n" +
 
-                            Toast.makeText(
-                                    MainActivity.this,
-                                    "Lecturer section coming next",
-                                    Toast.LENGTH_SHORT
-                            ).show();
+                                    "• Add student records\n" +
+                                    "• View student records\n" +
+                                    "• Edit student information\n" +
+                                    "• Delete student records\n" +
+                                    "• Search and filter students\n" +
+                                    "• Assign and transfer laboratory groups\n" +
+                                    "• Correct student numbers\n" +
+                                    "• View laboratory group totals"
+                    )
+                    .setPositiveButton("GOT IT", null)
+                    .show();
 
-                        })
-                        .start();
-            }
         });
 
 
-        // HELP BUTTON
-        helpIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        // WELCOME SCREEN HELP
+        helpIcon.setOnClickListener(v -> {
 
-                Toast.makeText(
-                        MainActivity.this,
-                        "Campus Companion Help",
-                        Toast.LENGTH_SHORT
-                ).show();
-            }
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Campus Companion Guide")
+                    .setMessage(
+                            "Welcome to Campus Companion!\n\n" +
+
+                                    "Campus Companion helps students and lecturers " +
+                                    "manage student registration and laboratory groups.\n\n" +
+
+                                    "STUDENTS\n" +
+                                    "Select STUDENT to open the Student Portal. " +
+                                    "You can sign in, create an account or recover " +
+                                    "your password.\n\n" +
+
+                                    "LECTURERS\n" +
+                                    "Select LECTURER to access lecturer features " +
+                                    "for managing student records and laboratory groups.\n\n" +
+
+                                    "HELP\n" +
+                                    "Use the ? button whenever you need guidance " +
+                                    "about the screen you are currently using.\n\n" +
+
+                                    "Campus Companion\n" +
+                                    "Same Campus. Brighter Tomorrow."
+                    )
+                    .setPositiveButton("GOT IT", null)
+                    .show();
+
         });
     }
 }
