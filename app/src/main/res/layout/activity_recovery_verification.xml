@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".RecoveryVerificationActivity">
+
+    <!-- Campus background -->
+    <ImageView
+        android:id="@+id/recovery_verification_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="Campus background"
+        android:scaleType="centerCrop"
+        android:src="@drawable/campus_background"
+        android:alpha="0.88" />
+
+    <!-- Soft white overlay -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#55FFFFFF" />
+
+    <!-- Scrollable content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="28dp">
+
+            <!-- Top navigation -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageButton
+                    android:id="@+id/recovery_verification_back_button"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:background="@drawable/student_back_circle"
+                    android:contentDescription="Back"
+                    android:padding="11dp"
+                    android:src="@drawable/student_back_icon" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <ImageButton
+                    android:id="@+id/recovery_verification_help_button"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:background="@drawable/student_back_circle"
+                    android:contentDescription="Verification help"
+                    android:padding="11dp"
+                    android:src="@android:drawable/ic_menu_help" />
+
+            </LinearLayout>
+
+            <!-- REAL CAMPUS COMPANION LOGO -->
+            <ImageView
+                android:id="@+id/recovery_verification_logo"
+                android:layout_width="180dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="18dp"
+                android:contentDescription="Campus Companion logo"
+                android:scaleType="fitCenter"
+                android:src="@drawable/campus_logo" />
+
+            <!-- Page title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="VERIFY RECOVERY"
+                android:textColor="#1687D9"
+                android:textSize="27sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <!-- Red underline -->
+            <View
+                android:layout_width="82dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="7dp"
+                android:background="#E53935" />
+
+            <!-- WHITE FORM -->
+            <LinearLayout
+                android:id="@+id/recovery_verification_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:background="@drawable/student_login_panel"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <!-- Heading -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Enter verification code"
+                    android:textColor="#222222"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:gravity="center" />
+
+                <!-- Contact information -->
+                <TextView
+                    android:id="@+id/recovery_verification_contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
+                    android:text="Enter the 6-digit code sent to your registered contact."
+                    android:textColor="#333333"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="3dp" />
+
+                <!-- Verification explanation -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="#F4F8FC"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="SECURE VERIFICATION"
+                        android:textColor="#1687D9"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Enter the 6-digit code we sent to your registered email or phone number. Never share this code with anyone."
+                        android:textColor="#222222"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:lineSpacingExtra="3dp" />
+
+                </LinearLayout>
+
+                <!-- OTP boxes -->
+                <LinearLayout
+                    android:id="@+id/recovery_code_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/recovery_code_1"
+                        android:layout_width="0dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/student_input"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:textColor="#222222"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/recovery_code_2"
+                        android:layout_width="0dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="6dp"
+                        android:background="@drawable/student_input"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:textColor="#222222"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/recovery_code_3"
+                        android:layout_width="0dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="6dp"
+                        android:background="@drawable/student_input"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:textColor="#222222"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/recovery_code_4"
+                        android:layout_width="0dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="6dp"
+                        android:background="@drawable/student_input"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:textColor="#222222"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/recovery_code_5"
+                        android:layout_width="0dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="6dp"
+                        android:background="@drawable/student_input"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:textColor="#222222"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/recovery_code_6"
+                        android:layout_width="0dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="6dp"
+                        android:background="@drawable/student_input"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:textColor="#222222"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <!-- Verify -->
+                <Button
+                    android:id="@+id/verify_recovery_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="22dp"
+                    android:background="@drawable/student_button"
+                    android:text="VERIFY CODE"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.05" />
+
+                <!-- Resend -->
+                <TextView
+                    android:id="@+id/recovery_resend_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="18dp"
+                    android:text="Resend code in 00:30"
+                    android:textColor="#555555"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <!-- Cancel -->
+                <TextView
+                    android:id="@+id/recovery_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="13dp"
+                    android:text="CANCEL"
+                    android:textColor="#E53935"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Footer -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Same Campus. Brighter Tomorrow."
+                android:textColor="#1687D9"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="EDUCATE • CONNECT • GROW"
+                android:textColor="#E53935"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

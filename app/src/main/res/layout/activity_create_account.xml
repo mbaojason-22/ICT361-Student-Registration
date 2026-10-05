@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".CreateAccountActivity">
+
+    <!-- Campus background -->
+    <ImageView
+        android:id="@+id/create_account_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="Campus background"
+        android:scaleType="centerCrop"
+        android:src="@drawable/campus_background"
+        android:alpha="0.88" />
+
+    <!-- Soft white overlay -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#55FFFFFF" />
+
+    <!-- Main scrollable content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingTop="20dp"
+        android:paddingBottom="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <!-- Top navigation -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- Back button -->
+                <ImageButton
+                    android:id="@+id/create_account_back_button"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:background="@drawable/student_back_circle"
+                    android:contentDescription="Back"
+                    android:padding="11dp"
+                    android:src="@drawable/student_back_icon" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <!-- Help button -->
+                <ImageButton
+                    android:id="@+id/create_account_help_button"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:background="@drawable/student_back_circle"
+                    android:contentDescription="Help"
+                    android:padding="11dp"
+                    android:src="@android:drawable/ic_menu_help" />
+
+            </LinearLayout>
+
+            <!-- REAL CAMPUS COMPANION LOGO -->
+            <ImageView
+                android:id="@+id/create_account_logo"
+                android:layout_width="110dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="4dp"
+                android:contentDescription="Campus Companion Logo"
+                android:scaleType="fitCenter"
+                android:src="@drawable/campus_logo" />
+
+            <!-- Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="CREATE ACCOUNT"
+                android:textColor="#1687D9"
+                android:textSize="27sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <!-- Red underline -->
+            <View
+                android:layout_width="74dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="7dp"
+                android:background="#E53935" />
+
+            <!-- Step indicator -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="STEP 1 OF 2"
+                android:textColor="#1687D9"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.12" />
+
+            <!-- Introductory text -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Let's help you build your student profile."
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <!-- Main form card -->
+            <LinearLayout
+                android:id="@+id/create_account_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/student_login_panel"
+                android:orientation="vertical"
+                android:padding="22dp">
+
+                <!-- FIRST NAME -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="First Name"
+                    android:textColor="#1687D9"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/first_name_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/student_input"
+                    android:hint="Enter your first name"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:singleLine="true"
+                    android:textColor="#222222"
+                    android:textColorHint="#888888"
+                    android:textSize="15sp"
+                    android:inputType="textPersonName" />
+
+                <!-- LAST NAME -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="17dp"
+                    android:text="Last Name"
+                    android:textColor="#1687D9"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/last_name_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/student_input"
+                    android:hint="Enter your last name"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:singleLine="true"
+                    android:textColor="#222222"
+                    android:textColorHint="#888888"
+                    android:textSize="15sp"
+                    android:inputType="textPersonName" />
+
+                <!-- STUDENT NUMBER -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="17dp"
+                    android:text="Student Number"
+                    android:textColor="#1687D9"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/create_student_number_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/student_input"
+                    android:hint="Enter your 9-digit student number"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:singleLine="true"
+                    android:maxLength="9"
+                    android:textColor="#222222"
+                    android:textColorHint="#888888"
+                    android:textSize="15sp"
+                    android:inputType="number" />
+
+                <!-- PROGRAMME -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="17dp"
+                    android:text="Programme"
+                    android:textColor="#1687D9"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/programme_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/student_input"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:spinnerMode="dropdown" />
+
+                <!-- Continue button -->
+                <Button
+                    android:id="@+id/create_account_continue_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="21dp"
+                    android:background="@drawable/student_button"
+                    android:text="CONTINUE"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.08" />
+
+            </LinearLayout>
+
+            <!-- Information note -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:text="Your information is used to create your student profile."
+                android:textColor="#444444"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <!-- Branding footer -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:text="Same Campus. Brighter Tomorrow."
+                android:textColor="#1687D9"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="EDUCATE  •  CONNECT  •  GROW"
+                android:textColor="#E53935"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

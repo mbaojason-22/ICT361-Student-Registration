@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".CreateAccountStep2Activity">
+
+    <!-- Campus background -->
+    <ImageView
+        android:id="@+id/create_account_step2_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="Campus background"
+        android:scaleType="centerCrop"
+        android:src="@drawable/campus_background"
+        android:alpha="0.88" />
+
+    <!-- Soft white overlay -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#55FFFFFF" />
+
+    <!-- Scrollable content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingTop="20dp"
+        android:paddingBottom="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <!-- Top navigation -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- Back button -->
+                <ImageButton
+                    android:id="@+id/create_account_step2_back_button"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:background="@drawable/student_back_circle"
+                    android:contentDescription="Back"
+                    android:padding="11dp"
+                    android:src="@drawable/student_back_icon" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <!-- Help button -->
+                <ImageButton
+                    android:id="@+id/create_account_step2_help_button"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:background="@drawable/student_back_circle"
+                    android:contentDescription="Help"
+                    android:padding="11dp"
+                    android:src="@android:drawable/ic_menu_help" />
+
+            </LinearLayout>
+
+            <!-- REAL CAMPUS COMPANION LOGO -->
+            <ImageView
+                android:id="@+id/create_account_step2_logo"
+                android:layout_width="180dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:contentDescription="Campus Companion logo"
+                android:scaleType="fitCenter"
+                android:src="@drawable/campus_logo" />
+
+            <!-- Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="CREATE ACCOUNT"
+                android:textColor="#1687D9"
+                android:textSize="27sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <!-- Red underline -->
+            <View
+                android:layout_width="74dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="7dp"
+                android:background="#E53935" />
+
+            <!-- Step indicator -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="STEP 2 OF 2"
+                android:textColor="#1687D9"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.12" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Almost there. Secure your account."
+                android:textColor="#444444"
+                android:textSize="15sp"
+                android:gravity="center" />
+
+            <!-- Main card -->
+            <LinearLayout
+                android:id="@+id/create_account_step2_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/student_login_panel"
+                android:orientation="vertical"
+                android:padding="22dp">
+
+                <!-- EMAIL / PHONE -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Email or Phone Number"
+                    android:textColor="#1687D9"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/contact_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/student_input"
+                    android:hint="Enter email or phone number"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:singleLine="true"
+                    android:textColor="#222222"
+                    android:textColorHint="#888888"
+                    android:textSize="15sp"
+                    android:inputType="text" />
+
+                <!-- CREATE PASSWORD -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="17dp"
+                    android:text="Create Password"
+                    android:textColor="#1687D9"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="7dp">
+
+                    <EditText
+                        android:id="@+id/create_password_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/student_input"
+                        android:hint="Create a password"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="54dp"
+                        android:singleLine="true"
+                        android:textColor="#222222"
+                        android:textColorHint="#888888"
+                        android:textSize="15sp"
+                        android:inputType="textPassword" />
+
+                    <ImageButton
+                        android:id="@+id/create_password_eye_button"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="3dp"
+                        android:background="@android:color/transparent"
+                        android:contentDescription="Show or hide password"
+                        android:padding="13dp"
+                        android:src="@drawable/password_eye" />
+
+                </FrameLayout>
+
+                <!-- Password strength -->
+                <LinearLayout
+                    android:id="@+id/password_strength_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Password strength"
+                            android:textColor="#666666"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/password_strength_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Not set"
+                            android:textColor="#777777"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <ProgressBar
+                        android:id="@+id/password_strength_bar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="7dp"
+                        android:layout_marginTop="6dp"
+                        android:max="5"
+                        android:progress="0"
+                        android:progressTint="#1687D9" />
+
+                    <!-- Password requirements -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/password_requirement_length"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="○ At least 8 characters"
+                            android:textColor="#777777"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/password_requirement_uppercase"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="○ Uppercase letter"
+                            android:textColor="#777777"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/password_requirement_lowercase"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="○ Lowercase letter"
+                            android:textColor="#777777"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/password_requirement_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="○ Number"
+                            android:textColor="#777777"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/password_requirement_special"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="○ Special character"
+                            android:textColor="#777777"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Strong password suggestion -->
+                <Button
+                    android:id="@+id/suggest_password_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="11dp"
+                    android:background="@drawable/create_account_button"
+                    android:text="SUGGEST A STRONG PASSWORD"
+                    android:textColor="#1687D9"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.04" />
+
+                <!-- CONFIRM PASSWORD -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="17dp"
+                    android:text="Re-enter Password"
+                    android:textColor="#1687D9"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="7dp">
+
+                    <EditText
+                        android:id="@+id/confirm_password_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/student_input"
+                        android:hint="Re-enter your password"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="54dp"
+                        android:singleLine="true"
+                        android:textColor="#222222"
+                        android:textColorHint="#888888"
+                        android:textSize="15sp"
+                        android:inputType="textPassword" />
+
+                    <ImageButton
+                        android:id="@+id/confirm_password_eye_button"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="3dp"
+                        android:background="@android:color/transparent"
+                        android:contentDescription="Show or hide password"
+                        android:padding="13dp"
+                        android:src="@drawable/password_eye" />
+
+                </FrameLayout>
+
+                <!-- Password guidance -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Tip: combine upper and lowercase letters, numbers and symbols."
+                    android:textColor="#666666"
+                    android:textSize="12sp" />
+
+                <!-- CREATE ACCOUNT -->
+                <Button
+                    android:id="@+id/create_account_final_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="21dp"
+                    android:background="@drawable/student_button"
+                    android:text="CREATE ACCOUNT"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.08" />
+
+            </LinearLayout>
+
+            <!-- Back to Step 1 -->
+            <TextView
+                android:id="@+id/back_to_step1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:text="← BACK TO STEP 1"
+                android:textColor="#1687D9"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <!-- Branding footer -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:text="Same Campus. Brighter Tomorrow."
+                android:textColor="#1687D9"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="EDUCATE  •  CONNECT  •  GROW"
+                android:textColor="#E53935"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

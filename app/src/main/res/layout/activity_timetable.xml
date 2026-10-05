@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/timetable_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#EEF4FA"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="16dp"
+    tools:context=".TimetableActivity">
+
+    <!-- HEADER -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingTop="8dp"
+        android:paddingBottom="12dp">
+
+        <TextView
+            android:id="@+id/back_button"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/student_back_circle"
+            android:gravity="center"
+            android:text="‹"
+            android:textColor="#102D63"
+            android:textSize="32sp"
+            android:contentDescription="Back"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:text="Timetable"
+            android:textColor="#102D63"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- INTRO -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Keep track of your classes and daily schedule."
+        android:textColor="#52678F"
+        android:textSize="14sp"
+        android:layout_marginBottom="14dp" />
+
+    <!-- DAY SELECTOR -->
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_marginBottom="14dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- MON -->
+
+            <TextView
+                android:id="@+id/day_monday"
+                android:layout_width="76dp"
+                android:layout_height="42dp"
+                android:background="@drawable/student_button"
+                android:gravity="center"
+                android:text="MON"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="Monday" />
+
+            <!-- TUE -->
+
+            <TextView
+                android:id="@+id/day_tuesday"
+                android:layout_width="76dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/student_login_panel"
+                android:gravity="center"
+                android:text="TUE"
+                android:textColor="#102D63"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="Tuesday" />
+
+            <!-- WED -->
+
+            <TextView
+                android:id="@+id/day_wednesday"
+                android:layout_width="76dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/student_login_panel"
+                android:gravity="center"
+                android:text="WED"
+                android:textColor="#102D63"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="Wednesday" />
+
+            <!-- THU -->
+
+            <TextView
+                android:id="@+id/day_thursday"
+                android:layout_width="76dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/student_login_panel"
+                android:gravity="center"
+                android:text="THU"
+                android:textColor="#102D63"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="Thursday" />
+
+            <!-- FRI -->
+
+            <TextView
+                android:id="@+id/day_friday"
+                android:layout_width="76dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/student_login_panel"
+                android:gravity="center"
+                android:text="FRI"
+                android:textColor="#102D63"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="Friday" />
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <!-- SCHEDULE -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:id="@+id/schedule_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

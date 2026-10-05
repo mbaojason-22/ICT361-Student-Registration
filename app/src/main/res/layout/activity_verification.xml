@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".VerificationActivity">
+
+    <!-- Campus background -->
+    <ImageView
+        android:id="@+id/verification_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="Campus background"
+        android:scaleType="centerCrop"
+        android:src="@drawable/campus_background"
+        android:alpha="0.88" />
+
+    <!-- Soft white overlay -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#55FFFFFF" />
+
+    <!-- Main scrollable content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingTop="20dp"
+        android:paddingBottom="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <!-- Top navigation -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- Back -->
+                <ImageButton
+                    android:id="@+id/verification_back_button"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:background="@drawable/student_back_circle"
+                    android:contentDescription="Back"
+                    android:padding="11dp"
+                    android:src="@drawable/student_back_icon" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <!-- Help -->
+                <ImageButton
+                    android:id="@+id/verification_help_button"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:background="@drawable/student_back_circle"
+                    android:contentDescription="Help"
+                    android:padding="11dp"
+                    android:src="@android:drawable/ic_menu_help" />
+
+            </LinearLayout>
+
+            <!-- REAL CAMPUS COMPANION LOGO -->
+            <ImageView
+                android:id="@+id/verification_logo"
+                android:layout_width="110dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="22dp"
+                android:contentDescription="Campus Companion Logo"
+                android:scaleType="fitCenter"
+                android:src="@drawable/campus_logo" />
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/verification_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:text="VERIFY YOUR ACCOUNT"
+                android:textColor="#1687D9"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <!-- Red underline -->
+            <View
+                android:layout_width="82dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="7dp"
+                android:background="#E53935" />
+
+            <!-- Main card -->
+            <LinearLayout
+                android:id="@+id/verification_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/student_login_panel"
+                android:orientation="vertical"
+                android:padding="22dp">
+
+                <!-- IMPORTANT VERIFICATION MESSAGE -->
+                <TextView
+                    android:id="@+id/verification_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="We've sent a 6-digit verification code to your email or phone number."
+                    android:textColor="#333333"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:lineSpacingExtra="3dp" />
+
+                <!-- CONTACT DESTINATION -->
+                <TextView
+                    android:id="@+id/verification_contact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="7dp"
+                    android:text="j***@gmail.com"
+                    android:textColor="#1687D9"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:gravity="center" />
+
+                <!-- Code label -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="ENTER VERIFICATION CODE"
+                    android:textColor="#1687D9"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:gravity="center" />
+
+                <!-- OTP boxes -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/code_digit_1"
+                        android:layout_width="46dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/student_input"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:textColor="#222222"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:importantForAutofill="no" />
+
+                    <EditText
+                        android:id="@+id/code_digit_2"
+                        android:layout_width="46dp"
+                        android:layout_height="56dp"
+                        android:layout_marginStart="6dp"
+                        android:background="@drawable/student_input"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:textColor="#222222"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:importantForAutofill="no" />
+
+                    <EditText
+                        android:id="@+id/code_digit_3"
+                        android:layout_width="46dp"
+                        android:layout_height="56dp"
+                        android:layout_marginStart="6dp"
+                        android:background="@drawable/student_input"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:textColor="#222222"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:importantForAutofill="no" />
+
+                    <EditText
+                        android:id="@+id/code_digit_4"
+                        android:layout_width="46dp"
+                        android:layout_height="56dp"
+                        android:layout_marginStart="6dp"
+                        android:background="@drawable/student_input"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:textColor="#222222"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:importantForAutofill="no" />
+
+                    <EditText
+                        android:id="@+id/code_digit_5"
+                        android:layout_width="46dp"
+                        android:layout_height="56dp"
+                        android:layout_marginStart="6dp"
+                        android:background="@drawable/student_input"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:textColor="#222222"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:importantForAutofill="no" />
+
+                    <EditText
+                        android:id="@+id/code_digit_6"
+                        android:layout_width="46dp"
+                        android:layout_height="56dp"
+                        android:layout_marginStart="6dp"
+                        android:background="@drawable/student_input"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:textColor="#222222"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:importantForAutofill="no" />
+
+                </LinearLayout>
+
+                <!-- Verify button -->
+                <Button
+                    android:id="@+id/verify_account_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/student_button"
+                    android:text="VERIFY ACCOUNT"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.08" />
+
+                <!-- Resend -->
+                <TextView
+                    android:id="@+id/resend_code_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="17dp"
+                    android:text="Resend code in 00:30"
+                    android:textColor="#777777"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/change_contact_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="9dp"
+                    android:text="Entered the wrong email or phone?"
+                    android:textColor="#1687D9"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Security note -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:text="For your security, never share your verification code with anyone."
+                android:textColor="#666666"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:lineSpacingExtra="2dp" />
+
+            <!-- Branding footer -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:text="Same Campus. Brighter Tomorrow."
+                android:textColor="#1687D9"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="EDUCATE  •  CONNECT  •  GROW"
+                android:textColor="#E53935"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>
