@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <!-- Campus background -->
+    <ImageView
+        android:id="@+id/create_lecturer_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/campus_background"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/student_campus_background" />
+
+    <!-- Dark overlay -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#26000000" />
+
+    <!-- Back button -->
+    <ImageButton
+        android:id="@+id/create_lecturer_back_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/student_back_circle"
+        android:src="@drawable/student_back_icon"
+        android:padding="12dp"
+        android:scaleType="center"
+        android:contentDescription="@string/back"
+        android:elevation="10dp"
+        android:translationZ="10dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!-- Help button (Red help icon) -->
+    <ImageButton
+        android:id="@+id/create_lecturer_help_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/help_circle_red"
+        android:src="@drawable/help_question_red"
+        android:padding="8dp"
+        android:scaleType="center"
+        android:contentDescription="@string/help"
+        android:elevation="10dp"
+        android:translationZ="10dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!-- Main content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="72dp"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingBottom="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <!-- OUTSIDE THE CANVAS (Logo, Title, Red line, Subtitle) -->
+
+            <!-- Campus Companion logo -->
+            <ImageView
+                android:id="@+id/create_lecturer_logo"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="6dp"
+                android:src="@drawable/campus_logo"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/campus_companion_logo" />
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/create_lecturer_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_lecturer_account_title"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif"
+                android:gravity="center" />
+
+            <!-- Red line -->
+            <View
+                android:layout_width="60dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:background="#D32F2F" />
+
+            <!-- Subtitle -->
+            <TextView
+                android:id="@+id/create_lecturer_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="@string/create_lecturer_account_subtitle"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:lineSpacingExtra="2dp" />
+
+            <!-- INSIDE THE CANVAS (Only input boxes & buttons) -->
+            <LinearLayout
+                android:id="@+id/create_lecturer_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/student_login_panel"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:paddingTop="18dp"
+                android:paddingBottom="20dp">
+
+                <!-- First Name label -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/first_name_label"
+                    android:textColor="#263238"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif" />
+
+                <!-- First Name box field -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="4dp">
+
+                    <EditText
+                        android:id="@+id/lecturer_first_name_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/student_input"
+                        android:drawableStart="@drawable/student_user_icon_red"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/enter_first_name_hint"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:textColor="#263238"
+                        android:textColorHint="#78909C"
+                        android:textSize="14sp"
+                        android:inputType="textPersonName"
+                        android:singleLine="true"
+                        android:fontFamily="sans-serif"
+                        android:autofillHints="personGivenName" />
+
+                </FrameLayout>
+
+                <!-- Title & Last Name Container -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:baselineAligned="false"
+                    android:layout_marginTop="10dp">
+
+                    <!-- Title Dropdown Column -->
+                    <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/title_label"
+                            android:textColor="#263238"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif" />
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/student_input"
+                            android:paddingStart="4dp"
+                            android:paddingEnd="4dp">
+
+                            <Spinner
+                                android:id="@+id/lecturer_title_spinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:spinnerMode="dropdown"
+                                android:gravity="center_vertical" />
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <!-- Last Name Column -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/last_name_label"
+                            android:textColor="#263238"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif" />
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginTop="4dp">
+
+                            <EditText
+                                android:id="@+id/lecturer_last_name_input"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/student_input"
+                                android:drawableStart="@drawable/student_user_icon_red"
+                                android:drawablePadding="10dp"
+                                android:hint="@string/enter_last_name_hint"
+                                android:paddingStart="14dp"
+                                android:paddingEnd="14dp"
+                                android:textColor="#263238"
+                                android:textColorHint="#78909C"
+                                android:textSize="14sp"
+                                android:inputType="textPersonName"
+                                android:singleLine="true"
+                                android:fontFamily="sans-serif"
+                                android:autofillHints="personFamilyName" />
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Staff ID / Lecturer ID label -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/lecturer_id_label"
+                    android:textColor="#263238"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif" />
+
+                <!-- Staff ID / Lecturer ID box field -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="4dp">
+
+                    <EditText
+                        android:id="@+id/lecturer_staff_id_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/student_input"
+                        android:drawableStart="@drawable/student_user_icon_red"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/enter_lecturer_id_hint"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:textColor="#263238"
+                        android:textColorHint="#78909C"
+                        android:textSize="14sp"
+                        android:inputType="text"
+                        android:singleLine="true"
+                        android:fontFamily="sans-serif"
+                        android:autofillHints="username" />
+
+                </FrameLayout>
+
+                <!-- Email label -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/email_label"
+                    android:textColor="#263238"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif" />
+
+                <!-- Email box field -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="4dp">
+
+                    <EditText
+                        android:id="@+id/lecturer_email_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/student_input"
+                        android:drawableStart="@drawable/student_user_icon_red"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/enter_email_hint"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:textColor="#263238"
+                        android:textColorHint="#78909C"
+                        android:textSize="14sp"
+                        android:inputType="textEmailAddress"
+                        android:singleLine="true"
+                        android:fontFamily="sans-serif"
+                        android:autofillHints="emailAddress" />
+
+                </FrameLayout>
+
+                <!-- Contact Number label -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/contact_number_label"
+                    android:textColor="#263238"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif" />
+
+                <!-- Contact Number box field -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="4dp">
+
+                    <EditText
+                        android:id="@+id/lecturer_contact_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/student_input"
+                        android:drawableStart="@drawable/student_user_icon_red"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/enter_contact_number_hint"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:textColor="#263238"
+                        android:textColorHint="#78909C"
+                        android:textSize="14sp"
+                        android:inputType="phone"
+                        android:singleLine="true"
+                        android:fontFamily="sans-serif"
+                        android:autofillHints="telephoneNumber" />
+
+                </FrameLayout>
+
+                <!-- Verify Button (Red button with white text) -->
+                <Button
+                    android:id="@+id/lecturer_verify_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/lecturer_button"
+                    android:text="@string/verify_button"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:padding="0dp"
+                    android:textAllCaps="false" />
+
+                <!-- Already have an account link -->
+                <TextView
+                    android:id="@+id/lecturer_already_have_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/already_have_lecturer_account"
+                    android:textColor="#1976D2"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+            </LinearLayout>
+
+            <!-- Motto -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/campus_motto"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                android:fontFamily="sans-serif"
+                android:gravity="center" />
+
+            <!-- Brand words -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/brand_words"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"
+                android:fontFamily="sans-serif"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

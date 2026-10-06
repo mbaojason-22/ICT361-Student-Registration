@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <!-- Campus background -->
+    <ImageView
+        android:id="@+id/lecturer_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/campus_background"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/student_campus_background" />
+
+    <!-- Dark overlay -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#26000000" />
+
+    <!-- Back button -->
+    <ImageButton
+        android:id="@+id/lecturer_back_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/student_back_circle"
+        android:src="@drawable/student_back_icon"
+        android:padding="12dp"
+        android:scaleType="center"
+        android:contentDescription="@string/back"
+        android:elevation="10dp"
+        android:translationZ="10dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!-- Help button -->
+    <ImageButton
+        android:id="@+id/lecturer_help_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/help_circle_red"
+        android:src="@drawable/help_question_red"
+        android:padding="8dp"
+        android:scaleType="center"
+        android:contentDescription="@string/help"
+        android:elevation="10dp"
+        android:translationZ="10dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!-- Main content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="72dp"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingBottom="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <!-- Campus Companion logo -->
+            <ImageView
+                android:id="@+id/lecturer_logo"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="6dp"
+                android:src="@drawable/campus_logo"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/campus_companion_logo" />
+
+            <!-- Lecturer Portal Title (per-letter reddish background highlight applied via Java) -->
+            <TextView
+                android:id="@+id/lecturer_portal_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lecturer_portal"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif"
+                android:gravity="center" />
+
+            <!-- Red underline -->
+            <View
+                android:layout_width="60dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:background="#D32F2F" />
+
+            <!-- Welcome message (per-letter reddish background highlight applied via Java) -->
+            <TextView
+                android:id="@+id/lecturer_welcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="@string/welcome_back_lecturer"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif"
+                android:gravity="center" />
+
+            <!-- Card container -->
+            <LinearLayout
+                android:id="@+id/lecturer_login_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/student_login_panel"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:paddingTop="18dp"
+                android:paddingBottom="20dp">
+
+                <!-- Lecturer ID / Registered Email label -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/lecturer_id_or_email"
+                    android:textColor="#263238"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif" />
+
+                <!-- Lecturer ID input -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="6dp">
+
+                    <EditText
+                        android:id="@+id/lecturer_id_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/student_input"
+                        android:drawableStart="@drawable/student_user_icon_red"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/enter_lecturer_id_or_email"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:textColor="#263238"
+                        android:textColorHint="#78909C"
+                        android:textSize="14sp"
+                        android:inputType="text"
+                        android:singleLine="true"
+                        android:fontFamily="sans-serif"
+                        android:autofillHints="username" />
+
+                </FrameLayout>
+
+                <!-- Password label -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/password"
+                    android:textColor="#263238"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif" />
+
+                <!-- Password input -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="6dp">
+
+                    <EditText
+                        android:id="@+id/lecturer_password_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/student_input"
+                        android:drawableStart="@drawable/password_lock_icon_red"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/enter_password"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="48dp"
+                        android:textColor="#263238"
+                        android:textColorHint="#78909C"
+                        android:textSize="14sp"
+                        android:inputType="textPassword"
+                        android:singleLine="true"
+                        android:fontFamily="sans-serif"
+                        android:autofillHints="password" />
+
+                    <!-- Eye button -->
+                    <ImageButton
+                        android:id="@+id/lecturer_password_eye_button"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/password_eye_red"
+                        android:padding="10dp"
+                        android:contentDescription="@string/show_hide_password" />
+
+                </FrameLayout>
+
+                <!-- Forgot password -->
+                <TextView
+                    android:id="@+id/lecturer_forgot_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/forgot_password"
+                    android:textColor="#1976D2"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <!-- Sign In button -->
+                <Button
+                    android:id="@+id/lecturer_sign_in_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/lecturer_button"
+                    android:text="@string/sign_in"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:padding="0dp"
+                    android:textAllCaps="false" />
+
+                <!-- OR divider -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="#B0BEC5" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/or"
+                        android:textColor="#607D8B"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="#B0BEC5" />
+
+                </LinearLayout>
+
+                <!-- Create Lecturer Account button -->
+                <Button
+                    android:id="@+id/lecturer_create_account_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/lecturer_create_account_button"
+                    android:text="@string/create_lecturer_account"
+                    android:textColor="#D32F2F"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:padding="0dp"
+                    android:textAllCaps="false" />
+
+            </LinearLayout>
+
+            <!-- Motto -->
+            <TextView
+                android:id="@+id/lecturer_motto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/campus_motto"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                android:fontFamily="sans-serif"
+                android:gravity="center" />
+
+            <!-- Brand words -->
+            <TextView
+                android:id="@+id/lecturer_brand_words"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/brand_words"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"
+                android:fontFamily="sans-serif"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

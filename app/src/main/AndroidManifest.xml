@@ -13,7 +13,13 @@
         <!-- Main entry point -->
         <activity
             android:name=".MainActivity"
+<<<<<<< HEAD
             android:exported="true">
+=======
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan">
+
+>>>>>>> 8bc14ec (Add lecturer screens)
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,6 +30,7 @@
         <!-- Student Portal -->
         <activity
             android:name=".StudentActivity"
+<<<<<<< HEAD
             android:exported="false" />
 
         <!-- Student registration -->
@@ -75,6 +82,51 @@
             android:name=".LabGroupsActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+=======
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".VerifyCodeActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ResetPasswordActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".LecturerActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".CreateAccountActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".CreateLecturerActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".CreateLecturerPasswordActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".HomeActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".GroupsActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ProfileActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".EditProfileActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ChangePasswordActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".CourseRegistrationActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".TimetableActivity"
+            android:windowSoftInputMode="adjustPan" />
+>>>>>>> 8bc14ec (Add lecturer screens)
     </application>
 
 </manifest>
