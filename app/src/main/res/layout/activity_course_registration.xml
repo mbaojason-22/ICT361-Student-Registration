@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/course_registration_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F9FC">
+
+    <!-- Main content -->
+    <ScrollView
+        android:id="@+id/course_registration_scroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingBottom="100dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/course_registration_bottom_nav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="18dp"
+            android:paddingTop="18dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="30dp">
+
+            <!-- Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:elevation="2dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <ImageButton
+                    android:id="@+id/back_button"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Go back"
+                    android:padding="9dp"
+                    android:src="@android:drawable/ic_menu_revert"
+                    android:tint="#1687D9" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingStart="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="COURSE REGISTRATION"
+                        android:textColor="#1687D9"
+                        android:textSize="21sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="Academic registration portal"
+                        android:textColor="#666666"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Red underline -->
+            <View
+                android:layout_width="72dp"
+                android:layout_height="3dp"
+                android:layout_marginStart="67dp"
+                android:layout_marginTop="4dp"
+                android:background="#E53935" />
+
+            <!-- ===================================================== -->
+            <!-- STEP 1 - YEAR -->
+            <!-- ===================================================== -->
+
+            <LinearLayout
+                android:id="@+id/year_selection_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="STEP 1 OF 3"
+                    android:textColor="#E53935"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Which year are you in?"
+                    android:textColor="#222222"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="Choose your current year of study before continuing to course registration."
+                    android:textColor="#666666"
+                    android:textSize="14sp" />
+
+                <!-- Year 1 -->
+                <RadioButton
+                    android:id="@+id/year_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/rounded_white_card"
+                    android:buttonTint="#1687D9"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:text="First Year"
+                    android:textColor="#222222"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <!-- Year 2 -->
+                <RadioButton
+                    android:id="@+id/year_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_white_card"
+                    android:buttonTint="#1687D9"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:text="Second Year"
+                    android:textColor="#222222"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <!-- Year 3 -->
+                <RadioButton
+                    android:id="@+id/year_three"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_white_card"
+                    android:buttonTint="#1687D9"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:text="Third Year"
+                    android:textColor="#222222"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <!-- Year 4 -->
+                <RadioButton
+                    android:id="@+id/year_four"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_white_card"
+                    android:buttonTint="#1687D9"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:text="Fourth Year"
+                    android:textColor="#222222"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/year_continue_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="#1687D9"
+                    android:text="CONTINUE TO SEMESTER"
+                    android:textColor="@android:color/white"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- ===================================================== -->
+            <!-- STEP 2 - SEMESTER -->
+            <!-- ===================================================== -->
+
+            <LinearLayout
+                android:id="@+id/semester_selection_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="STEP 2 OF 3"
+                    android:textColor="#E53935"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Choose your semester"
+                    android:textColor="#222222"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/selected_year_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="Selected year: —"
+                    android:textColor="#1687D9"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <!-- Semester 1 -->
+                <RadioButton
+                    android:id="@+id/semester_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/rounded_white_card"
+                    android:buttonTint="#1687D9"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:text="FIRST SEMESTER"
+                    android:textColor="#222222"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <!-- Semester 2 -->
+                <RadioButton
+                    android:id="@+id/semester_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_white_card"
+                    android:buttonTint="#1687D9"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:text="SECOND SEMESTER"
+                    android:textColor="#222222"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/semester_back_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="14dp"
+                    android:backgroundTint="#E9F4FC"
+                    android:text="BACK TO YEAR"
+                    android:textColor="#1687D9"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/semester_continue_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="#1687D9"
+                    android:text="CONTINUE TO REGISTRATION"
+                    android:textColor="@android:color/white"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- ===================================================== -->
+            <!-- STEP 3 - ACTUAL REGISTRATION -->
+            <!-- ===================================================== -->
+
+            <LinearLayout
+                android:id="@+id/registration_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="STEP 3 OF 3"
+                    android:textColor="#E53935"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Course Registration"
+                    android:textColor="#222222"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/registration_selection_summary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Year: —   •   Semester: —"
+                    android:textColor="#1687D9"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <!-- Registration information card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/rounded_white_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Registration Information"
+                        android:textColor="#1687D9"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Select the courses you want to register for. Courses marked as extra are intended for previous-semester or outstanding courses."
+                        android:textColor="#666666"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <!-- Current semester courses -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:text="Current Semester Courses"
+                    android:textColor="#222222"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="Choose the courses you want to request for registration."
+                    android:textColor="#777777"
+                    android:textSize="13sp" />
+
+                <CheckBox
+                    android:id="@+id/course_ict361"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_white_card"
+                    android:buttonTint="#1687D9"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:text="ICT361 — Mobile Application Programming"
+                    android:textColor="#222222"
+                    android:textSize="14sp" />
+
+                <CheckBox
+                    android:id="@+id/course_ict261"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/rounded_white_card"
+                    android:buttonTint="#1687D9"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:text="ICT261 — Database Systems"
+                    android:textColor="#222222"
+                    android:textSize="14sp" />
+
+                <CheckBox
+                    android:id="@+id/course_ict402"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/rounded_white_card"
+                    android:buttonTint="#1687D9"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:text="ICT402 — Statistics and Empirical Methods for Computing"
+                    android:textColor="#222222"
+                    android:textSize="14sp" />
+
+                <CheckBox
+                    android:id="@+id/course_ict371"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/rounded_white_card"
+                    android:buttonTint="#1687D9"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:text="ICT371 — Theory of Computation"
+                    android:textColor="#222222"
+                    android:textSize="14sp" />
+
+                <CheckBox
+                    android:id="@+id/course_ict381"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/rounded_white_card"
+                    android:buttonTint="#1687D9"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:text="ICT381 — Cybersecurity Principles"
+                    android:textColor="#222222"
+                    android:textSize="14sp" />
+
+                <!-- Extra / previous semester -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/rounded_white_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Extra / Previous Semester Courses"
+                        android:textColor="#222222"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Use this section for outstanding, repeated or previously missed courses."
+                        android:textColor="#777777"
+                        android:textSize="13sp" />
+
+                    <CheckBox
+                        android:id="@+id/extra_ict221"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:layout_marginTop="10dp"
+                        android:buttonTint="#1687D9"
+                        android:text="ICT221 — Operating Systems"
+                        android:textColor="#333333"
+                        android:textSize="14sp" />
+
+                    <CheckBox
+                        android:id="@+id/extra_ict232"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:buttonTint="#1687D9"
+                        android:text="ICT232 — Data Structures and Algorithms"
+                        android:textColor="#333333"
+                        android:textSize="14sp" />
+
+                    <CheckBox
+                        android:id="@+id/extra_ict201"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:buttonTint="#1687D9"
+                        android:text="ICT201 — Web Technologies"
+                        android:textColor="#333333"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <!-- Query to lecturer -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:background="@drawable/rounded_white_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Message to Lecturer"
+                        android:textColor="#1687D9"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Send a short message explaining your registration request before submitting."
+                        android:textColor="#777777"
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/lecturer_query"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/rounded_white_card"
+                        android:gravity="top|start"
+                        android:hint="Example: Please approve my selected courses. I would also like to register for the outstanding course from my previous semester."
+                        android:inputType="textCapSentences|textMultiLine"
+                        android:maxLength="500"
+                        android:padding="14dp"
+                        android:textColor="#222222"
+                        android:textColorHint="#999999"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <!-- Registration summary -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:background="@drawable/rounded_white_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Registration Summary"
+                        android:textColor="#222222"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/selected_course_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="0 courses selected"
+                        android:textColor="#1687D9"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/registration_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Status: Not submitted"
+                        android:textColor="#777777"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <!-- Back and submit -->
+                <Button
+                    android:id="@+id/registration_back_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="#E9F4FC"
+                    android:text="BACK TO SEMESTER"
+                    android:textColor="#1687D9"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/request_registration_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="22dp"
+                    android:backgroundTint="#1687D9"
+                    android:text="SUBMIT REGISTRATION REQUEST"
+                    android:textColor="@android:color/white"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- ===================================================== -->
+    <!-- PERSISTENT BOTTOM NAVIGATION -->
+    <!-- ===================================================== -->
+
+    <LinearLayout
+        android:id="@+id/course_registration_bottom_nav"
+        android:layout_width="0dp"
+        android:layout_height="78dp"
+        android:background="#FFFFFF"
+        android:elevation="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Home -->
+        <LinearLayout
+            android:id="@+id/nav_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⌂"
+                android:textColor="#777777"
+                android:textSize="25sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home"
+                android:textColor="#777777"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+
+        <!-- Lab Groups -->
+        <LinearLayout
+            android:id="@+id/nav_lab_groups"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="👥"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lab Groups"
+                android:textColor="#777777"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+
+        <!-- Resources -->
+        <LinearLayout
+            android:id="@+id/nav_resources"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📚"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Resources"
+                android:textColor="#1687D9"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Profile -->
+        <LinearLayout
+            android:id="@+id/nav_profile"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="👤"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profile"
+                android:textColor="#777777"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

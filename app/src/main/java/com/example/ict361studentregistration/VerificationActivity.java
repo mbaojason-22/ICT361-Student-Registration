@@ -484,12 +484,14 @@ public class VerificationActivity extends AppCompatActivity {
         Intent intent =
                 new Intent(
                         VerificationActivity.this,
-                        StudentActivity.class
+                        StudentHomeActivity.class
                 );
 
+        // Open Student Home directly after successful verification.
+        // Clear registration/login screens from the back stack.
         intent.addFlags(
-                Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        | Intent.FLAG_ACTIVITY_SINGLE_TOP
+                Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_CLEAR_TASK
         );
 
         startActivity(intent);

@@ -3,7 +3,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/study_groups_root"
+    android:id="@+id/resources_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F9FF">
@@ -33,6 +33,7 @@
             android:textSize="38sp"
             android:clickable="true"
             android:focusable="true"
+            android:contentDescription="Back"
             android:background="?attr/selectableItemBackgroundBorderless" />
 
         <TextView
@@ -40,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
-            android:text="Lab Groups"
+            android:text="Resources"
             android:textColor="#102D63"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -50,7 +51,7 @@
 
     <!-- Main content -->
     <ScrollView
-        android:id="@+id/lab_groups_scroll"
+        android:id="@+id/resources_scroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -72,119 +73,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="22dp"
-                android:text="Your lab group is where you work with other students on lab activities and group assignments."
+                android:layout_marginBottom="20dp"
+                android:text="Find learning materials, campus information and useful academic resources."
                 android:textColor="#687A9B"
                 android:textSize="16sp"
                 android:lineSpacingExtra="4dp" />
 
 
-            <!-- My Lab Group Card -->
+            <!-- Course Materials -->
             <LinearLayout
+                android:id="@+id/course_materials_card"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="24dp"
-                android:background="@drawable/student_login_panel">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="MY LAB GROUP"
-                    android:textColor="#1687D9"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="G02"
-                    android:textColor="#102D63"
-                    android:textSize="42sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="8 students / 15 maximum"
-                    android:textColor="#687A9B"
-                    android:textSize="15sp" />
-
-                <ProgressBar
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:layout_marginTop="18dp"
-                    android:max="15"
-                    android:progress="8"
-                    android:progressTint="#22B8A7"
-                    android:backgroundTint="#DCE5F2" />
-
-            </LinearLayout>
-
-
-            <!-- Lab Group Members -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:layout_marginBottom="12dp"
-                android:text="Lab Group Members"
-                android:textColor="#102D63"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:id="@+id/group_members"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp"
-                android:background="@drawable/student_login_panel">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Jason M.  •  YOU"
-                    android:textColor="#102D63"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:paddingBottom="16dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Michael K."
-                    android:textColor="#102D63"
-                    android:textSize="16sp"
-                    android:paddingBottom="16dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Amanda N."
-                    android:textColor="#102D63"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-
-            <!-- GROUP CHAT -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:layout_marginBottom="12dp"
-                android:text="Group Communication"
-                android:textColor="#102D63"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:id="@+id/group_chat"
-                android:layout_width="match_parent"
-                android:layout_height="76dp"
+                android:layout_height="82dp"
                 android:background="@drawable/student_login_panel"
                 android:clickable="true"
                 android:focusable="true"
@@ -194,33 +94,33 @@
                 android:paddingEnd="16dp">
 
                 <TextView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
                     android:background="#E6F3FF"
                     android:gravity="center"
-                    android:text="💬"
-                    android:textSize="23sp" />
+                    android:text="📚"
+                    android:textSize="24sp" />
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="13dp"
+                    android:layout_marginStart="14dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Group Chat"
+                        android:text="Course Materials"
                         android:textColor="#102D63"
-                        android:textSize="15sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
-                        android:text="Chat with members of your lab group"
+                        android:text="Lecture notes and learning materials"
                         android:textColor="#687A9B"
                         android:textSize="11sp" />
 
@@ -237,11 +137,11 @@
             </LinearLayout>
 
 
-            <!-- LECTURER NOTICES -->
+            <!-- Study and Revision -->
             <LinearLayout
-                android:id="@+id/group_announcements"
+                android:id="@+id/study_resources_card"
                 android:layout_width="match_parent"
-                android:layout_height="76dp"
+                android:layout_height="82dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/student_login_panel"
                 android:clickable="true"
@@ -252,33 +152,33 @@
                 android:paddingEnd="16dp">
 
                 <TextView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
                     android:background="#FFF0F2"
                     android:gravity="center"
-                    android:text="📢"
-                    android:textSize="23sp" />
+                    android:text="📝"
+                    android:textSize="24sp" />
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="13dp"
+                    android:layout_marginStart="14dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Lecturer Notices"
+                        android:text="Study &amp; Revision"
                         android:textColor="#102D63"
-                        android:textSize="15sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
-                        android:text="Official announcements and updates"
+                        android:text="Revision guides and practice material"
                         android:textColor="#687A9B"
                         android:textSize="11sp" />
 
@@ -295,58 +195,244 @@
             </LinearLayout>
 
 
-            <!-- GROUP MANAGEMENT -->
-            <TextView
+            <!-- Course Registration -->
+            <LinearLayout
+                android:id="@+id/course_registration_card"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:layout_marginBottom="12dp"
-                android:text="Group Management"
-                android:textColor="#102D63"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-
-            <!-- Request Group Change -->
-            <TextView
-                android:id="@+id/request_group_change"
-                android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:gravity="center"
-                android:text="REQUEST LAB GROUP CHANGE"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:textStyle="bold"
+                android:layout_height="82dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/student_login_panel"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="@drawable/student_button" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <TextView
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:background="#E6F3FF"
+                    android:gravity="center"
+                    android:text="🎓"
+                    android:textSize="24sp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Course Registration"
+                        android:textColor="#102D63"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="Select courses and request lecturer approval"
+                        android:textColor="#687A9B"
+                        android:textSize="11sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="›"
+                    android:textColor="#102D63"
+                    android:textSize="26sp" />
+
+            </LinearLayout>
 
 
-            <!-- My Requests -->
-            <TextView
-                android:id="@+id/my_group_requests"
+            <!-- Campus Maps -->
+            <LinearLayout
+                android:id="@+id/campus_maps_card"
                 android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="20dp"
-                android:gravity="center"
-                android:text="MY GROUP REQUESTS"
-                android:textColor="#102D63"
-                android:textSize="14sp"
-                android:textStyle="bold"
+                android:layout_height="82dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/student_login_panel"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="@drawable/student_login_panel" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <TextView
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:background="#E6F3FF"
+                    android:gravity="center"
+                    android:text="🗺️"
+                    android:textSize="24sp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Campus Maps"
+                        android:textColor="#102D63"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="Find useful campus buildings and venues"
+                        android:textColor="#687A9B"
+                        android:textSize="11sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="›"
+                    android:textColor="#102D63"
+                    android:textSize="26sp" />
+
+            </LinearLayout>
+
+
+            <!-- Lab Guides -->
+            <LinearLayout
+                android:id="@+id/lab_guides_card"
+                android:layout_width="match_parent"
+                android:layout_height="82dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/student_login_panel"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <TextView
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:background="#FFF0F2"
+                    android:gravity="center"
+                    android:text="📄"
+                    android:textSize="24sp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Lab Guides"
+                        android:textColor="#102D63"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="Lab instructions and submission guidance"
+                        android:textColor="#687A9B"
+                        android:textSize="11sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="›"
+                    android:textColor="#102D63"
+                    android:textSize="26sp" />
+
+            </LinearLayout>
+
+
+            <!-- Academic Links -->
+            <LinearLayout
+                android:id="@+id/academic_links_card"
+                android:layout_width="match_parent"
+                android:layout_height="82dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/student_login_panel"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:background="#E6F3FF"
+                    android:gravity="center"
+                    android:text="🔗"
+                    android:textSize="24sp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Academic Links"
+                        android:textColor="#102D63"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="Important university and academic links"
+                        android:textColor="#687A9B"
+                        android:textSize="11sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="›"
+                    android:textColor="#102D63"
+                    android:textSize="26sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
 
 
-    <!-- ========================================================= -->
     <!-- PERSISTENT BOTTOM NAVIGATION -->
-    <!-- ========================================================= -->
-
     <LinearLayout
         android:id="@+id/bottom_navigation"
         android:layout_width="0dp"
@@ -390,7 +476,7 @@
         </LinearLayout>
 
 
-        <!-- LAB GROUPS - ACTIVE -->
+        <!-- LAB GROUPS -->
         <LinearLayout
             android:id="@+id/nav_lab_groups"
             android:layout_width="0dp"
@@ -404,24 +490,22 @@
             <TextView
                 android:layout_width="44dp"
                 android:layout_height="34dp"
-                android:background="#E6F3FF"
                 android:gravity="center"
                 android:text="👥"
-                android:textColor="#1687D9"
+                android:textColor="#687A9B"
                 android:textSize="21sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Lab Groups"
-                android:textColor="#1687D9"
-                android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textColor="#687A9B"
+                android:textSize="10sp" />
 
         </LinearLayout>
 
 
-        <!-- RESOURCES -->
+        <!-- RESOURCES - ACTIVE -->
         <LinearLayout
             android:id="@+id/nav_resources"
             android:layout_width="0dp"
@@ -435,17 +519,19 @@
             <TextView
                 android:layout_width="44dp"
                 android:layout_height="34dp"
+                android:background="#E6F3FF"
                 android:gravity="center"
                 android:text="📁"
-                android:textColor="#687A9B"
+                android:textColor="#1687D9"
                 android:textSize="21sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Resources"
-                android:textColor="#687A9B"
-                android:textSize="10sp" />
+                android:textColor="#1687D9"
+                android:textSize="10sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 

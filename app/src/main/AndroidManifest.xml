@@ -3,6 +3,8 @@
 
     <!-- Internet access for the future Node.js API -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Vibration for verification/error feedback -->
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
@@ -42,7 +44,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
-        <!-- NEW password-recovery flow -->
+        <!-- Password recovery -->
         <activity
             android:name=".PasswordRecoveryActivity"
             android:exported="false"
@@ -55,24 +57,70 @@
             android:name=".ResetPasswordActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+        <!-- Student Home -->
         <activity
             android:name=".StudentHomeActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+        <!-- My Classes -->
         <activity
             android:name=".MyClassesActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+        <!-- Timetable -->
         <activity
             android:name=".TimetableActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+        <!-- Assignments -->
         <activity
             android:name=".AssignmentsActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+        <!-- Lab Groups -->
         <activity
             android:name=".LabGroupsActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Group Chat -->
+        <activity
+            android:name=".GroupChatActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Profile -->
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Edit Profile -->
+        <activity
+            android:name=".EditProfileActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Resources -->
+        <activity
+            android:name=".ResourcesActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".CourseRegistrationActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ChangePasswordActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".BackupEmailActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>
