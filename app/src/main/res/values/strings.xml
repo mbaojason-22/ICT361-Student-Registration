@@ -9,6 +9,7 @@
     <string name="back">Back</string>
     <string name="help">Help</string>
     <string name="campus_companion_logo">Campus Companion logo</string>
+    <string name="title_label">Title</string>
 
     <!-- Student Portal -->
     <string name="student_portal">Student Portal</string>
@@ -34,5 +35,135 @@
     <!-- Branding -->
     <string name="campus_motto">Same Campus. Brighter Tomorrow.</string>
     <string name="brand_words">EDUCATE • CONNECT • GROW</string>
+
+    <!-- Password Recovery -->
+    <string name="forgot_password_title">Reset Password</string>
+    <string name="forgot_password_subtitle">Enter your registered email address or phone number to receive a verification code.</string>
+    <string name="email_or_phone_label">Email or Phone Number</string>
+    <string name="enter_email_or_phone_hint">Enter email or phone number</string>
+    <string name="send_code_button">REQUEST VERIFICATION CODE</string>
+    <string name="back_to_sign_in">Back to Sign In</string>
+
+    <!-- Code Verification -->
+    <string name="verify_code_title">Verify Code</string>
+    <string name="verify_code_subtitle">Enter the 6-digit code sent to your device.\n(Default code: 123456)</string>
+    <string name="verification_code_label">Verification Code</string>
+    <string name="enter_code_hint">Enter 6-digit code (123456)</string>
+    <string name="verify_code_button">VERIFY CODE</string>
+    <string name="resend_code">Didn\'t receive code? Resend Code</string>
+
+    <!-- Create New Password -->
+    <string name="create_new_password_title">New Password</string>
+    <string name="create_new_password_subtitle">Your identity has been verified. Enter a new password with at least 8 characters mixing letters, numbers, and special characters.</string>
+    <string name="new_password_label">New Password</string>
+    <string name="enter_new_password_hint">Enter new password (min. 8 characters)</string>
+    <string name="confirm_password_label">Confirm New Password</string>
+    <string name="enter_confirm_password_hint">Re-enter new password</string>
+    <string name="save_new_password_button">SAVE NEW PASSWORD</string>
+
+    <!-- Lecturer Portal -->
+    <string name="lecturer_portal">Lecturer Portal</string>
+    <string name="welcome_back_lecturer">Welcome back, Lecturer</string>
+    <string name="lecturer_id_or_email">Lecturer ID or Email</string>
+    <string name="enter_lecturer_id_or_email">Enter lecturer ID or email</string>
+    <string name="create_lecturer_account">CREATE LECTURER ACCOUNT</string>
+
+    <!-- Create Student Account -->
+    <string name="create_account_title">Create Account</string>
+    <string name="create_account_subtitle">Join Campus Companion today by entering your registration details below.</string>
+    <string name="first_name_label">First Name</string>
+    <string name="enter_first_name_hint">Enter first name</string>
+    <string name="last_name_label">Last Name</string>
+    <string name="enter_last_name_hint">Enter last name</string>
+    <string name="student_number_label">Student Number</string>
+    <string name="enter_student_number_hint">Enter 9-digit student number</string>
+    <string name="email_label">Email Address</string>
+    <string name="enter_email_hint">Enter student email</string>
+    <string name="program_label">Program of Study</string>
+    <string name="register_account_button">REGISTER ACCOUNT</string>
+    <string name="already_have_account">Already have an account? Sign In</string>
+
+    <!-- Create Lecturer Account -->
+    <string name="create_lecturer_account_title">Create Lecturer Account</string>
+    <string name="create_lecturer_account_subtitle">Fill in your staff details below to register your Campus Companion lecturer account.</string>
+    <string name="lecturer_id_label">Staff ID / Lecturer ID</string>
+    <string name="enter_lecturer_id_hint">Enter official staff or lecturer ID</string>
+    <string name="contact_number_label">Contact Number</string>
+    <string name="enter_contact_number_hint">Enter phone / contact number</string>
+    <string name="already_have_lecturer_account">Already have an account? Sign In</string>
+    <string name="verify_button">VERIFY</string>
+
+    <!-- Set Lecturer Password -->
+    <string name="set_password_title">Set Password</string>
+    <string name="set_password_subtitle">Your details have been verified. Create a secure password for your lecturer account.</string>
+    <string name="complete_registration_button">COMPLETE REGISTRATION</string>
+
+    <!-- Home Screen -->
+    <string name="nav_groups">Groups</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_timetable">Timetable</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_more">More</string>
+    <string name="my_classes">My Classes</string>
+    <string name="menu_drawer">Menu</string>
+    <string name="hello_user">Hello! %1$s</string>
+    <string name="welcome_campus_companion">Welcome to Campus Companion</string>
+    <string name="academic_dashboard">Academic Dashboard</string>
+    <string name="dashboard_desc">View students, add to groups, post and share notices with students, and manage your academic classes.</string>
+    <string name="groups_label">Groups</string>
+    <string name="profile_label">Profile</string>
+    <string name="campus_home">Campus Home</string>
+
+    <!-- Groups Screen -->
+    <string name="course_groups_title">Lecturer Course Groups</string>
+    <string name="group_policy_title">Lecturer Admin Portal</string>
+    <string name="group_policy_desc">Admin Status: Lecturer (You) • You are automatically assigned as Administrator for all course groups. Capacity Rule: Max 15 students per group limit strictly enforced.</string>
+    <string name="max_students_badge">Max 15 Students / Group</string>
+    <string name="admin_badge">Admin: Lecturer</string>
+    <string name="btn_manage_groups">MANAGE STUDENTS &amp; GROUPS</string>
+
+    <string name="code_ict341">ICT341</string>
+    <string name="title_ict341">Cybersecurity Principles</string>
+    <string name="active_ict341">Active Enrolled: Group A (12/15) • Group B (8/15)</string>
+    <string name="btn_ict341">MANAGE ICT341 GROUPS</string>
+
+    <string name="code_ict381">ICT381</string>
+    <string name="title_ict381">System Modelling and Design</string>
+    <string name="active_ict381">Active Enrolled: Group A (15/15 Full) • Group B (10/15)</string>
+    <string name="btn_ict381">MANAGE ICT381 GROUPS</string>
+
+    <string name="code_ict371">ICT371</string>
+    <string name="title_ict371">Advanced Database</string>
+    <string name="active_ict371">Active Enrolled: Group A (14/15) • Group B (11/15)</string>
+    <string name="btn_ict371">MANAGE ICT371 GROUPS</string>
+
+    <string name="code_ict351">ICT351</string>
+    <string name="title_ict351">Theory of Computation</string>
+    <string name="active_ict351">Active Enrolled: Group A (9/15) • Group B (6/15)</string>
+    <string name="btn_ict351">MANAGE ICT351 GROUPS</string>
+
+    <!-- Profile Screen -->
+    <string name="profile_version">v1.0</string>
+    <string name="profile_chevron_symbol">»</string>
+    <string name="default_lecturer_name">Dr. Jane Smith</string>
+    <string name="default_staff_id_plan">Staff ID: STF-2024-889 • Lecturer</string>
+    <string name="lbl_registered_name">Registered Name</string>
+    <string name="lbl_staff_id">Staff / Lecturer ID</string>
+    <string name="default_staff_id">STF-2024-889</string>
+    <string name="lbl_teaching_courses">Teaching Courses</string>
+    <string name="badge_courses_active">4 Courses Active</string>
+    <string name="default_teaching_courses">ICT341, ICT381, ICT371, ICT351</string>
+    <string name="lbl_email_address">Email Address</string>
+    <string name="default_lecturer_email">jane.smith@campus.edu</string>
+    <string name="lbl_contact_number">Contact Number</string>
+    <string name="default_lecturer_contact">+260 971 234 567</string>
+
+    <string-array name="programs_array">
+        <item>Select Program</item>
+        <item>Computer Science</item>
+        <item>Information Technology (IT)</item>
+        <item>Data Science</item>
+        <item>Cybersecurity</item>
+    </string-array>
 
 </resources>

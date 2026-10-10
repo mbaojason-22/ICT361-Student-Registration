@@ -73,8 +73,6 @@
             android:paddingEnd="20dp">
 
             <!-- Campus Companion logo -->
-            <ImageView
-                android:id="@+id/lecturer_logo"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="4dp"
@@ -304,8 +302,6 @@
                 android:layout_marginTop="12dp"
                 android:text="@string/campus_motto"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:textStyle="italic"
                 android:fontFamily="sans-serif"
                 android:gravity="center" />
 
@@ -316,8 +312,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="@string/brand_words"
-                android:textColor="#FFFFFF"
-                android:textSize="11sp"
                 android:textStyle="bold"
                 android:letterSpacing="0.08"
                 android:fontFamily="sans-serif"
