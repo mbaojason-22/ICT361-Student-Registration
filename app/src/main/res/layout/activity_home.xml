@@ -1,0 +1,854 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lecturer_home_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <!-- Campus background image matching login screens -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/campus_background"
+        android:scaleType="centerCrop"
+        android:contentDescription="Campus background" />
+
+    <!-- Comfortable translucent dark overlay to reduce screen glare and ensure high contrast accessibility -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#55263238" />
+
+    <!-- Main Vertical Layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- TOP HEADER: Back button in top-left corner, menu bar removed -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="32dp"
+            android:paddingBottom="20dp"
+            android:elevation="4dp">
+
+            <!-- Back Button in top-left corner (styled like login page) -->
+            <ImageButton
+                android:id="@+id/lecturer_back_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/student_back_circle"
+                android:src="@drawable/student_back_icon"
+                android:padding="8dp"
+                android:contentDescription="Back"
+                android:layout_marginEnd="12dp"
+                app:tint="#1976D2" />
+
+            <!-- Lecturer Title Name Header (Staff ID removed) -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginEnd="8dp">
+
+                <TextView
+                    android:id="@+id/lecturer_title_name_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dr. Lecturer"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif" />
+
+            </LinearLayout>
+
+            <!-- Top Right Dashboard Logo -->
+            <ImageView
+                android:id="@+id/lecturer_header_logo"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:src="@drawable/campus_logo"
+                android:scaleType="fitCenter"
+                android:contentDescription="Campus Logo" />
+
+        </LinearLayout>
+
+        <!-- MAIN SCROLLABLE CONTENT -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- DASHBOARD SECTION -->
+                <LinearLayout
+                    android:id="@+id/section_dashboard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="20dp">
+
+                    <!-- Welcome Card -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@drawable/lecturer_panel"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lecturer Dashboard"
+                            android:textColor="#D32F2F"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/welcome_message_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Welcome to Campus Companion. Use the top-left menu bar (☰) to access Course Registration, Notice Board, and Settings."
+                            android:textColor="#37474F"
+                            android:textSize="13sp"
+                            android:lineSpacingExtra="2dp" />
+
+                    </LinearLayout>
+
+                    <!-- Notice Board on Dashboard -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@drawable/notice_board_bg"
+                        android:padding="18dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="12dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="📢 Notice Board &amp; Announcements"
+                                android:textColor="#263238"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <Button
+                                android:id="@+id/post_announcement_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="38dp"
+                                android:background="@drawable/lecturer_button"
+                                android:text="+ Post Notice"
+                                android:textColor="#FFFFFF"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:textAllCaps="false" />
+
+                        </LinearLayout>
+
+                        <!-- Notice Board Container -->
+                        <LinearLayout
+                            android:id="@+id/notice_board_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- Quick Access Icons 2x2 Grid (Two on top, two down, proper spacing, larger size) -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="14dp">
+
+                        <!-- Row 1: Notification & My Classes -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_marginBottom="10dp">
+
+                            <!-- Notification Icon Card -->
+                            <LinearLayout
+                                android:id="@+id/quick_action_notification"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:background="@drawable/quick_action_card_bg"
+                                android:paddingTop="18dp"
+                                android:paddingBottom="18dp"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:layout_marginEnd="6dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="🔔"
+                                    android:textSize="32sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Notification"
+                                    android:textColor="#37474F"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    android:layout_marginTop="6dp"
+                                    android:gravity="center"
+                                    android:maxLines="1"
+                                    android:ellipsize="end" />
+
+                            </LinearLayout>
+
+                            <!-- My Classes Icon Card -->
+                            <LinearLayout
+                                android:id="@+id/quick_action_classes"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:background="@drawable/quick_action_card_bg"
+                                android:paddingTop="18dp"
+                                android:paddingBottom="18dp"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:layout_marginStart="6dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="📚"
+                                    android:textSize="32sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="My Classes"
+                                    android:textColor="#37474F"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    android:layout_marginTop="6dp"
+                                    android:gravity="center"
+                                    android:maxLines="1"
+                                    android:ellipsize="end" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <!-- Row 2: More & Groups -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center">
+
+                            <!-- More Icon Card -->
+                            <LinearLayout
+                                android:id="@+id/quick_action_more"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:background="@drawable/quick_action_card_bg"
+                                android:paddingTop="18dp"
+                                android:paddingBottom="18dp"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:layout_marginEnd="6dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="⋯"
+                                    android:textSize="32sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="More"
+                                    android:textColor="#37474F"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    android:layout_marginTop="6dp"
+                                    android:gravity="center"
+                                    android:maxLines="1"
+                                    android:ellipsize="end" />
+
+                            </LinearLayout>
+
+                            <!-- Groups Icon Card -->
+                            <LinearLayout
+                                android:id="@+id/quick_action_groups"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:background="@drawable/quick_action_card_bg"
+                                android:paddingTop="18dp"
+                                android:paddingBottom="18dp"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:layout_marginStart="6dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="👥"
+                                    android:textSize="32sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Groups"
+                                    android:textColor="#37474F"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    android:layout_marginTop="6dp"
+                                    android:gravity="center"
+                                    android:maxLines="1"
+                                    android:ellipsize="end" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- Campus Motto at bottom of Dashboard -->
+                    <TextView
+                        android:id="@+id/dashboard_campus_motto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/campus_motto"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        android:textStyle="bold|italic"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="4dp" />
+
+                    <!-- Brand words -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/brand_words"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.08"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center"
+                        android:layout_marginBottom="12dp" />
+
+                </LinearLayout>
+
+                <!-- SECTION 2: GROUPS (Includes Course Registration & Managed Student Groups) -->
+                <LinearLayout
+                    android:id="@+id/section_groups"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:background="@drawable/lecturer_panel"
+                    android:padding="18dp"
+                    android:layout_marginBottom="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="12dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="👥 Groups &amp; Course Registration"
+                            android:textColor="#263238"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <Button
+                            android:id="@+id/add_student_record_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="38dp"
+                            android:background="@drawable/lecturer_button"
+                            android:text="+ Add Student"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:textAllCaps="false" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="Select your lecturing courses via menu and manage student group allocations below:"
+                        android:textColor="#546E7A"
+                        android:textSize="13sp" />
+
+                    <!-- Managed Courses Container -->
+                    <LinearLayout
+                        android:id="@+id/courses_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                </LinearLayout>
+
+                <!-- SECTION 3: TIMETABLE -->
+                <LinearLayout
+                    android:id="@+id/section_timetable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:background="@drawable/lecturer_panel"
+                    android:padding="18dp"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📅 Lecturer Teaching Timetable"
+                        android:textColor="#263238"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp" />
+
+                    <!-- Timetable Card 1 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@drawable/notice_card_bg"
+                        android:padding="14dp"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ICT361 Lab Session — Group A &amp; B"
+                            android:textColor="#D32F2F"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="Monday • 10:00 - 13:00 • Lab Room 4B"
+                            android:textColor="#37474F"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <!-- Timetable Card 2 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@drawable/notice_card_bg"
+                        android:padding="14dp"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ICT341 Cybersecurity Lecture"
+                            android:textColor="#D32F2F"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="Wednesday • 14:00 - 16:00 • Auditorium 2"
+                            android:textColor="#37474F"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- SECTION 4: MORE (Profile, Notifications, Settings, etc.) -->
+                <LinearLayout
+                    android:id="@+id/section_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:background="@drawable/lecturer_panel"
+                    android:padding="16dp"
+                    android:layout_marginBottom="20dp">
+
+                    <!-- Lecturer Profile Header -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="230dp"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="16dp"
+                        android:background="@drawable/lecturer_profile_header"
+                        android:contentDescription="Lecturer profile">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lecturer Profile"
+                            android:textColor="#FFFFFF"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="6dp" />
+
+                        <TextView
+                            android:layout_width="85dp"
+                            android:layout_height="85dp"
+                            android:gravity="center"
+                            android:text="👤"
+                            android:textSize="45sp"
+                            android:background="@drawable/lecturer_avatar"
+                            android:elevation="4dp"
+                            android:contentDescription="Lecturer profile avatar" />
+
+                        <TextView
+                            android:id="@+id/tvLecturerName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Lecturer Name"
+                            android:textColor="#FFFFFF"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:contentDescription="Lecturer name" />
+
+                        <TextView
+                            android:id="@+id/tvLecturerNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="LECT001 - LECTURER"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            android:contentDescription="Lecturer identification number and role" />
+
+                    </LinearLayout>
+
+                    <!-- Course Approval Option -->
+                    <LinearLayout
+                        android:id="@+id/courseApprovalOption"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:layout_width="36dp"
+                            android:layout_height="wrap_content"
+                            android:text="✅"
+                            android:textSize="24sp"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:text="Course Approval"
+                            android:textColor="#333333"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="›"
+                            android:textColor="#888888"
+                            android:textSize="24sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#DDDDDD" />
+
+                    <!-- Notifications Option -->
+                    <LinearLayout
+                        android:id="@+id/notificationsOption"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:layout_width="36dp"
+                            android:layout_height="wrap_content"
+                            android:text="🔔"
+                            android:textSize="24sp"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:text="Notifications"
+                            android:textColor="#333333"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="›"
+                            android:textColor="#888888"
+                            android:textSize="24sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#DDDDDD" />
+
+                    <!-- Settings Option -->
+                    <LinearLayout
+                        android:id="@+id/settingsOption"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:layout_width="36dp"
+                            android:layout_height="wrap_content"
+                            android:text="⚙"
+                            android:textSize="24sp"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:text="Settings"
+                            android:textColor="#333333"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="›"
+                            android:textColor="#888888"
+                            android:textSize="24sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#DDDDDD" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <!-- BOTTOM NAVIGATION BAR (Dashboard, Groups, Timetable, Profile) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="#FFFFFF"
+            android:orientation="horizontal"
+            android:elevation="8dp"
+            android:gravity="center"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
+
+            <!-- Nav Item: Dashboard -->
+            <LinearLayout
+                android:id="@+id/nav_dashboard"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🏠"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dashboard"
+                    android:textColor="#D32F2F"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Nav Item: Groups -->
+            <LinearLayout
+                android:id="@+id/nav_groups"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="👥"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Groups"
+                    android:textColor="#607D8B"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+            <!-- Nav Item: Timetable -->
+            <LinearLayout
+                android:id="@+id/nav_timetable"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📅"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Timetable"
+                    android:textColor="#607D8B"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+            <!-- Nav Item: More -->
+            <LinearLayout
+                android:id="@+id/nav_more"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⋯"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="More"
+                    android:textColor="#607D8B"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

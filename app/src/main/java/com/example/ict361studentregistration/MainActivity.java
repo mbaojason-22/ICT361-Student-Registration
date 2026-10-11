@@ -44,25 +44,13 @@ public class MainActivity extends AppCompatActivity {
         // LECTURER BUTTON
         lecturerButton.setOnClickListener(v -> {
 
-            new AlertDialog.Builder(MainActivity.this)
-                    .setTitle("Lecturer Portal")
-                    .setMessage(
-                            "The Lecturer Portal is used by authorised " +
-                                    "lecturers to manage student registration records.\n\n" +
+            // Open the Lecturer Portal
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    LecturerActivity.class
+            );
 
-                                    "Lecturers will be able to:\n\n" +
-
-                                    "• Add student records\n" +
-                                    "• View student records\n" +
-                                    "• Edit student information\n" +
-                                    "• Delete student records\n" +
-                                    "• Search and filter students\n" +
-                                    "• Assign and transfer laboratory groups\n" +
-                                    "• Correct student numbers\n" +
-                                    "• View laboratory group totals"
-                    )
-                    .setPositiveButton("GOT IT", null)
-                    .show();
+            startActivity(intent);
 
         });
 

@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -58,6 +59,34 @@ public class ResetPasswordActivity extends AppCompatActivity {
         updatePasswordButton =
                 findViewById(R.id.update_password_button);
 
+        boolean isLecturer = "LECTURER".equalsIgnoreCase(getIntent().getStringExtra("USER_TYPE"));
+
+        if (isLecturer) {
+            if (newPasswordInput != null) {
+                newPasswordInput.setBackgroundResource(R.drawable.lecturer_input);
+                newPasswordInput.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password_lock_icon_red, 0, 0, 0);
+                newPasswordInput.setCompoundDrawablePadding((int) (10 * getResources().getDisplayMetrics().density));
+            }
+
+            if (confirmPasswordInput != null) {
+                confirmPasswordInput.setBackgroundResource(R.drawable.lecturer_input);
+                confirmPasswordInput.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password_lock_icon_red, 0, 0, 0);
+                confirmPasswordInput.setCompoundDrawablePadding((int) (10 * getResources().getDisplayMetrics().density));
+            }
+
+            if (newPasswordEyeButton != null) {
+                newPasswordEyeButton.setImageResource(R.drawable.password_eye_red);
+            }
+
+            if (confirmPasswordEyeButton != null) {
+                confirmPasswordEyeButton.setImageResource(R.drawable.password_eye_red);
+            }
+
+            if (updatePasswordButton != null) {
+                updatePasswordButton.setBackgroundResource(R.drawable.lecturer_button);
+            }
+        }
+
         // LIVE PASSWORD STRENGTH
         newPasswordInput.addTextChangedListener(
                 new TextWatcher() {
@@ -100,7 +129,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 newPasswordInput.setTransformationMethod(
                         PasswordTransformationMethod.getInstance()
                 );
-
+                newPasswordEyeButton.setImageResource(isLecturer ? R.drawable.password_eye_red : R.drawable.password_eye);
                 newPasswordVisible = false;
 
             } else {
@@ -108,7 +137,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 newPasswordInput.setTransformationMethod(
                         HideReturnsTransformationMethod.getInstance()
                 );
-
+                newPasswordEyeButton.setImageResource(isLecturer ? R.drawable.password_eye_off_red : R.drawable.password_eye);
                 newPasswordVisible = true;
             }
 
@@ -125,7 +154,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 confirmPasswordInput.setTransformationMethod(
                         PasswordTransformationMethod.getInstance()
                 );
-
+                confirmPasswordEyeButton.setImageResource(isLecturer ? R.drawable.password_eye_red : R.drawable.password_eye);
                 confirmPasswordVisible = false;
 
             } else {
@@ -133,7 +162,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 confirmPasswordInput.setTransformationMethod(
                         HideReturnsTransformationMethod.getInstance()
                 );
-
+                confirmPasswordEyeButton.setImageResource(isLecturer ? R.drawable.password_eye_off_red : R.drawable.password_eye);
                 confirmPasswordVisible = true;
             }
 
@@ -215,6 +244,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 return;
             }
 
+            Class<?> targetClass = isLecturer ? LecturerActivity.class : StudentActivity.class;
+
             /*
              * PASSWORD UPDATE SUCCESS
              *
@@ -226,35 +257,25 @@ public class ResetPasswordActivity extends AppCompatActivity {
             )
                     .setTitle("Password Updated ✓")
                     .setMessage(
-                            "Your password has been updated successfully.\n\n" +
+                            "Your password has been saved and updated successfully.\n\n" +
                                     "You can now sign in using your new password."
                     )
                     .setCancelable(false)
                     .setPositiveButton(
-                            "BACK TO SIGN IN",
+                            "SAVE PASSWORD",
                             (dialog, which) -> {
 
                                 /*
-                                 * Return to the existing Student Portal
+                                 * Return to the existing Lecturer or Student Portal
                                  * instead of going back to the recovery
                                  * screens.
                                  */
                                 Intent intent =
                                         new Intent(
                                                 ResetPasswordActivity.this,
-                                                StudentActivity.class
+                                                targetClass
                                         );
 
-                                /*
-                                 * CLEAR_TOP:
-                                 * Remove PasswordRecovery,
-                                 * RecoveryVerification and ResetPassword
-                                 * from above StudentActivity.
-                                 *
-                                 * SINGLE_TOP:
-                                 * Reuse the existing StudentActivity
-                                 * instead of creating another one.
-                                 */
                                 intent.setFlags(
                                         Intent.FLAG_ACTIVITY_CLEAR_TOP |
                                                 Intent.FLAG_ACTIVITY_SINGLE_TOP

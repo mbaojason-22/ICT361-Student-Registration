@@ -56,10 +56,6 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".StudentHomeActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".MyClassesActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
@@ -73,6 +69,32 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".LabGroupsActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".LecturerActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".CreateLecturerActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".CreateLecturerPasswordActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".VerifyCodeActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ForgotPasswordActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>

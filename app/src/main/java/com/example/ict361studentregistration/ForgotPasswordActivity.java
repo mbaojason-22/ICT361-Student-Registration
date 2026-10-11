@@ -1,5 +1,6 @@
 package com.example.ict361studentregistration;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.widget.Button;
@@ -57,7 +58,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             if (identifier.isEmpty()) {
 
                 recoveryIdentifierInput.setError(
-                        "Enter your student number or email/phone"
+                        "Enter your lecturer ID or email"
                 );
 
                 recoveryIdentifierInput.requestFocus();
@@ -65,9 +66,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 return;
             }
 
-            // Check student number
-            boolean isStudentNumber =
-                    identifier.matches("\\d{9}");
+            // Check numeric ID (5-10 digits)
+            boolean isLecturerId = identifier.matches("\\d{5,10}");
 
             // Check email
             boolean isEmail =
@@ -82,12 +82,12 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     );
 
             // Invalid identifier
-            if (!isStudentNumber &&
+            if (!isLecturerId &&
                     !isEmail &&
                     !isPhone) {
 
                 recoveryIdentifierInput.setError(
-                        "Enter a valid student number, email or phone number"
+                        "Enter a valid lecturer ID or email address"
                 );
 
                 recoveryIdentifierInput.requestFocus();
@@ -95,22 +95,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 return;
             }
 
-            // Local demonstration
-            new AlertDialog.Builder(
-                    ForgotPasswordActivity.this
-            )
-                    .setTitle("Verification Code Sent")
-                    .setMessage(
-                            "A verification code has been sent " +
-                                    "to the contact information linked to your account.\n\n" +
-                                    "For this local demonstration, use:\n\n" +
-                                    "123456"
-                    )
-                    .setPositiveButton(
-                            "CONTINUE",
-                            null
-                    )
-                    .show();
+            // Navigate to VerifyCodeActivity for password recovery verification
+            Intent intent = new Intent(ForgotPasswordActivity.this, VerifyCodeActivity.class);
+            intent.putExtra("EMAIL", identifier);
+            intent.putExtra("EXPECTED_CODE", "123456");
+            intent.putExtra("NEXT_ACTIVITY", "RESET_PASSWORD");
+            intent.putExtra("USER_TYPE", "LECTURER");
+            startActivity(intent);
         });
 
         // BACK BUTTON

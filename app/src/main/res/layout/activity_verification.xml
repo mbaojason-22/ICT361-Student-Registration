@@ -91,17 +91,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="17dp"
                 android:text="VERIFY YOUR ACCOUNT"
-                android:textColor="#1687D9"
+                android:textColor="#FFFFFF"
                 android:textSize="25sp"
                 android:textStyle="bold"
                 android:gravity="center" />
-
-            <!-- Red underline -->
-            <View
-                android:layout_width="82dp"
-                android:layout_height="3dp"
-                android:layout_marginTop="7dp"
-                android:background="#E53935" />
 
             <!-- Main card -->
             <LinearLayout

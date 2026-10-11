@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class LecturerGroupViewModel extends ViewModel {
 
@@ -120,6 +122,7 @@ public class LecturerGroupViewModel extends ViewModel {
         groupsMap.put("ICT351", new CourseGroupData("ICT351", "Theory of Computation", "Lecturer (Admin)", 15, ict351Students));
 
         courseGroupsLiveData.setValue(groupsMap);
+        selectedCourses.setValue(new HashSet<>(groupsMap.keySet()));
     }
 
     public LiveData<Map<String, CourseGroupData>> getCourseGroupsLiveData() {
@@ -147,14 +150,46 @@ public class LecturerGroupViewModel extends ViewModel {
 
     public boolean addStudent(String courseCode, String studentId, String name, String groupName) {
         CourseGroupData groupData = groupsMap.get(courseCode);
-        if (groupData != null && groupData.getStudents() != null) {
+        if (groupData == null) {
+            List<StudentItem> studentList = new ArrayList<>();
+            studentList.add(new StudentItem(studentId, name, groupName));
+            groupData = new CourseGroupData(courseCode, courseCode + " - Course", "Lecturer (Admin)", 15, studentList);
+            groupsMap.put(courseCode, groupData);
+        } else if (groupData.getStudents() != null) {
             if (groupData.getStudentCount() >= groupData.getMaxCapacity()) {
                 return false; // Group capacity limit reached (max 15)
             }
             groupData.getStudents().add(new StudentItem(studentId, name, groupName));
-            courseGroupsLiveData.setValue(groupsMap);
-            return true;
         }
-        return false;
+
+        Set<String> currentSelected = getSelectedCourses();
+        currentSelected.add(courseCode);
+        selectedCourses.setValue(currentSelected);
+
+        courseGroupsLiveData.setValue(groupsMap);
+        return true;
+    }
+
+    private final MutableLiveData<Set<String>> selectedCourses =
+            new MutableLiveData<>(new HashSet<>());
+
+    public Set<String> getSelectedCourses() {
+        Set<String> courses = selectedCourses.getValue();
+        if (courses == null || courses.isEmpty()) {
+            return new HashSet<>(groupsMap.keySet());
+        }
+        return new HashSet<>(courses);
+    }
+
+    public void setSelectedCourses(Set<String> courses) {
+        selectedCourses.setValue(
+                courses != null
+                        ? new HashSet<>(courses)
+                        : new HashSet<>()
+        );
+    }
+
+    public int getActiveCoursesCount() {
+        return groupsMap.size();
     }
 }
