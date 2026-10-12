@@ -461,68 +461,41 @@
                     android:padding="18dp"
                     android:layout_marginBottom="20dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="📅 Lecturer Teaching Timetable"
-                        android:textColor="#263238"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="12dp" />
-
-                    <!-- Timetable Card 1 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:background="@drawable/notice_card_bg"
-                        android:padding="14dp"
-                        android:layout_marginBottom="10dp">
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="12dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="ICT361 Lab Session — Group A &amp; B"
-                            android:textColor="#D32F2F"
-                            android:textSize="14sp"
+                            android:layout_weight="1"
+                            android:text="📅 Lecturer Teaching Timetable"
+                            android:textColor="#263238"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <Button
+                            android:id="@+id/add_timetable_button"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:text="Monday • 10:00 - 13:00 • Lab Room 4B"
-                            android:textColor="#37474F"
-                            android:textSize="12sp" />
-
+                            android:layout_height="38dp"
+                            android:background="@drawable/lecturer_button"
+                            android:text="+ Add Class"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:textAllCaps="false" />
                     </LinearLayout>
 
-                    <!-- Timetable Card 2 -->
                     <LinearLayout
+                        android:id="@+id/lecturer_timetable_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:background="@drawable/notice_card_bg"
-                        android:padding="14dp"
-                        android:layout_marginBottom="10dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="ICT341 Cybersecurity Lecture"
-                            android:textColor="#D32F2F"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:text="Wednesday • 14:00 - 16:00 • Auditorium 2"
-                            android:textColor="#37474F"
-                            android:textSize="12sp" />
-
-                    </LinearLayout>
+                        android:orientation="vertical" />
 
                 </LinearLayout>
 

@@ -1,3 +1,4 @@
+
 package com.example.ict361studentregistration;
 
 import android.graphics.Color;
@@ -12,391 +13,245 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+
+import com.example.ict361studentregistration.data.room.AppDatabase;
+import com.example.ict361studentregistration.data.room.Timetable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class TimetableActivity extends AppCompatActivity {
 
     private LinearLayout scheduleContainer;
+    private View[] dayButtons;
+    private final String[] days = {
+            "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
+    };
 
-    private View monday;
-    private View tuesday;
-    private View wednesday;
-    private View thursday;
-    private View friday;
+    private String selectedDay = "Monday";
+    private List<Timetable> timetableEntries = new ArrayList<>();
+    private Observer<List<Timetable>> timetableObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_timetable);
 
-        // Handle different screen sizes, status bars,
-        // notches and navigation bars.
         View rootView = findViewById(R.id.timetable_root);
 
-        ViewCompat.setOnApplyWindowInsetsListener(
-                rootView,
-                (view, windowInsets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(rootView, (view, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(
+                    WindowInsetsCompat.Type.systemBars()
+            );
 
-                    Insets insets = windowInsets.getInsets(
-                            WindowInsetsCompat.Type.systemBars()
-                    );
+            view.setPadding(
+                    view.getPaddingLeft(),
+                    insets.top + dp(16),
+                    view.getPaddingRight(),
+                    insets.bottom + dp(16)
+            );
 
-                    view.setPadding(
-                            view.getPaddingLeft(),
-                            insets.top + 16,
-                            view.getPaddingRight(),
-                            insets.bottom + 16
-                    );
+            return windowInsets;
+        });
 
-                    return windowInsets;
-                }
-        );
+        findViewById(R.id.back_button).setOnClickListener(v -> finish());
 
-        // Back button
-        View backButton = findViewById(R.id.back_button);
-
-        backButton.setOnClickListener(v -> finish());
-
-        // Schedule container
         scheduleContainer = findViewById(R.id.schedule_container);
 
-        // Day buttons
-        monday = findViewById(R.id.day_monday);
-        tuesday = findViewById(R.id.day_tuesday);
-        wednesday = findViewById(R.id.day_wednesday);
-        thursday = findViewById(R.id.day_thursday);
-        friday = findViewById(R.id.day_friday);
+        dayButtons = new View[]{
+                findViewById(R.id.day_monday),
+                findViewById(R.id.day_tuesday),
+                findViewById(R.id.day_wednesday),
+                findViewById(R.id.day_thursday),
+                findViewById(R.id.day_friday)
+        };
 
-        // Monday starts selected
-        showMonday();
+        for (int i = 0; i < dayButtons.length; i++) {
+            final String day = days[i];
+            dayButtons[i].setOnClickListener(v -> selectDay(day));
+        }
 
-        // Monday
-        monday.setOnClickListener(v -> showMonday());
-
-        // Tuesday
-        tuesday.setOnClickListener(v -> showTuesday());
-
-        // Wednesday
-        wednesday.setOnClickListener(v -> showWednesday());
-
-        // Thursday
-        thursday.setOnClickListener(v -> showThursday());
-
-        // Friday
-        friday.setOnClickListener(v -> showFriday());
+        selectDay("Monday");
+        observeTimetable();
     }
 
-    private void showMonday() {
+    private void observeTimetable() {
+        LiveData<List<Timetable>> liveData =
+                AppDatabase.getDatabase(getApplicationContext())
+                        .timetableDao()
+                        .getAllTimetable();
 
-        selectDay(monday);
+        timetableObserver = entries -> {
+            timetableEntries = entries == null
+                    ? new ArrayList<>()
+                    : new ArrayList<>(entries);
 
-        showClass(
-                "08:00",
-                "10:00",
-                "ICT351",
-                "Advanced Databases",
-                "Lecture",
-                "#1687D9"
-        );
+            renderSelectedDay();
+        };
+
+        liveData.observe(this, timetableObserver);
     }
 
-    private void showTuesday() {
+    private void selectDay(String day) {
+        selectedDay = day;
 
-        selectDay(tuesday);
+        for (int i = 0; i < dayButtons.length; i++) {
+            dayButtons[i].setBackgroundResource(
+                    days[i].equals(day)
+                            ? R.drawable.student_button
+                            : R.drawable.student_login_panel
+            );
+        }
 
-        showClass(
-                "10:00",
-                "12:00",
-                "ICT381",
-                "Cybersecurity Principles",
-                "Lecture",
-                "#E53935"
-        );
+        renderSelectedDay();
     }
 
-    private void showWednesday() {
+    private void renderSelectedDay() {
+        if (scheduleContainer == null) return;
 
-        selectDay(wednesday);
+        scheduleContainer.removeAllViews();
+        boolean found = false;
 
-        showClass(
-                "14:00",
-                "16:00",
-                "ICT361",
-                "Mobile Application Programming",
-                "Lecture",
-                "#1687D9"
-        );
+        for (Timetable entry : timetableEntries) {
+            if (entry.dayOfWeek == null
+                    || !entry.dayOfWeek.trim().equalsIgnoreCase(selectedDay)) {
+                continue;
+            }
+
+            found = true;
+
+            String color = String.format(
+                    Locale.US, "#%06X",
+                    (0xFFFFFF & entry.accentColor)
+            );
+
+            addClassCard(
+                    safe(entry.startTime),
+                    safe(entry.endTime),
+                    safe(entry.courseCode),
+                    safe(entry.courseName),
+                    safe(entry.classType),
+                    safe(entry.venue),
+                    color
+            );
+        }
+
+        if (!found) {
+            showEmptyState("No classes scheduled for " + selectedDay);
+        }
     }
 
-    private void showThursday() {
-
-        selectDay(thursday);
-
-        showClass(
-                "09:00",
-                "11:00",
-                "ICT341",
-                "System Modelling",
-                "Lecture",
-                "#E53935"
-        );
+    private void showEmptyState(String message) {
+        TextView empty = new TextView(this);
+        empty.setText(message);
+        empty.setTextColor(Color.rgb(104, 122, 155));
+        empty.setTextSize(14);
+        empty.setGravity(Gravity.CENTER);
+        empty.setPadding(dp(20), dp(32), dp(20), dp(32));
+        scheduleContainer.addView(empty);
     }
 
-    private void showFriday() {
-
-        selectDay(friday);
-
-        showClass(
-                "11:00",
-                "13:00",
-                "ICT371",
-                "Theory of Computation",
-                "Lecture",
-                "#1687D9"
-        );
-    }
-
-    private void selectDay(View selectedDay) {
-
-        // Reset all days
-        monday.setBackgroundResource(
-                R.drawable.student_login_panel
-        );
-
-        tuesday.setBackgroundResource(
-                R.drawable.student_login_panel
-        );
-
-        wednesday.setBackgroundResource(
-                R.drawable.student_login_panel
-        );
-
-        thursday.setBackgroundResource(
-                R.drawable.student_login_panel
-        );
-
-        friday.setBackgroundResource(
-                R.drawable.student_login_panel
-        );
-
-        // Highlight selected day
-        selectedDay.setBackgroundResource(
-                R.drawable.student_button
-        );
-    }
-
-    private void showClass(
+    private void addClassCard(
             String startTime,
             String endTime,
             String courseCode,
             String courseName,
             String classType,
+            String venue,
             String accentColor
     ) {
-
-        // Remove the previous day's classes
-        scheduleContainer.removeAllViews();
-
-        // Main class card
         LinearLayout card = new LinearLayout(this);
-
         card.setOrientation(LinearLayout.HORIZONTAL);
         card.setGravity(Gravity.CENTER_VERTICAL);
-        card.setPadding(
-                dp(14),
-                dp(14),
-                dp(14),
-                dp(14)
+        card.setPadding(dp(14), dp(14), dp(14), dp(14));
+
+        GradientDrawable background = new GradientDrawable();
+        background.setColor(Color.WHITE);
+        background.setCornerRadius(dp(16));
+        card.setBackground(background);
+
+        LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
         );
-
-        GradientDrawable cardBackground =
-                new GradientDrawable();
-
-        cardBackground.setColor(
-                Color.WHITE
-        );
-
-        cardBackground.setCornerRadius(
-                dp(16)
-        );
-
-        card.setBackground(cardBackground);
-
-        LinearLayout.LayoutParams cardParams =
-                new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
-
-        cardParams.setMargins(
-                0,
-                0,
-                0,
-                dp(10)
-        );
-
+        cardParams.setMargins(0, 0, 0, dp(10));
         card.setLayoutParams(cardParams);
 
-        // Time section
         TextView time = new TextView(this);
-
-        time.setLayoutParams(
-                new LinearLayout.LayoutParams(
-                        dp(62),
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                )
-        );
-
-        time.setText(
-                startTime + "\n" + endTime
-        );
-
-        time.setTextColor(
-                Color.rgb(16, 45, 99)
-        );
-
+        time.setLayoutParams(new LinearLayout.LayoutParams(
+                dp(62), LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+        time.setText(startTime + "\n" + endTime);
+        time.setTextColor(Color.rgb(16, 45, 99));
         time.setTextSize(12);
+        time.setTypeface(null, android.graphics.Typeface.BOLD);
 
-        time.setTypeface(
-                null,
-                android.graphics.Typeface.BOLD
-        );
-
-        // Accent line
         View accentLine = new View(this);
-
-        LinearLayout.LayoutParams accentParams =
-                new LinearLayout.LayoutParams(
-                        dp(3),
-                        dp(60)
-                );
-
+        LinearLayout.LayoutParams accentParams = new LinearLayout.LayoutParams(
+                dp(3), dp(70)
+        );
         accentLine.setLayoutParams(accentParams);
 
-        accentLine.setBackgroundColor(
-                Color.parseColor(accentColor)
+        try {
+            accentLine.setBackgroundColor(Color.parseColor(accentColor));
+        } catch (IllegalArgumentException e) {
+            accentLine.setBackgroundColor(Color.rgb(22, 135, 217));
+        }
+
+        LinearLayout information = new LinearLayout(this);
+        information.setOrientation(LinearLayout.VERTICAL);
+
+        LinearLayout.LayoutParams infoParams = new LinearLayout.LayoutParams(
+                0, LinearLayout.LayoutParams.WRAP_CONTENT, 1
         );
+        infoParams.setMargins(dp(12), 0, 0, 0);
+        information.setLayoutParams(infoParams);
 
-        // Course information container
-        LinearLayout information =
-                new LinearLayout(this);
-
-        information.setOrientation(
-                LinearLayout.VERTICAL
-        );
-
-        LinearLayout.LayoutParams informationParams =
-                new LinearLayout.LayoutParams(
-                        0,
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        1
-                );
-
-        informationParams.setMargins(
-                dp(12),
-                0,
-                0,
-                0
-        );
-
-        information.setLayoutParams(
-                informationParams
-        );
-
-        // Course code
         TextView code = new TextView(this);
-
         code.setText(courseCode);
-
-        code.setTextColor(
-                Color.parseColor(accentColor)
-        );
-
+        code.setTextColor(Color.rgb(22, 135, 217));
         code.setTextSize(11);
+        code.setTypeface(null, android.graphics.Typeface.BOLD);
 
-        code.setTypeface(
-                null,
-                android.graphics.Typeface.BOLD
-        );
-
-        // Course name
         TextView name = new TextView(this);
-
         name.setText(courseName);
-
-        name.setTextColor(
-                Color.rgb(16, 45, 99)
-        );
-
+        name.setTextColor(Color.rgb(16, 45, 99));
         name.setTextSize(15);
+        name.setTypeface(null, android.graphics.Typeface.BOLD);
 
-        name.setTypeface(
-                null,
-                android.graphics.Typeface.BOLD
-        );
-
-        LinearLayout.LayoutParams nameParams =
-                new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
-
-        nameParams.setMargins(
-                0,
-                dp(3),
-                0,
-                0
-        );
-
-        name.setLayoutParams(nameParams);
-
-        // Class type
         TextView type = new TextView(this);
-
         type.setText(classType);
-
-        type.setTextColor(
-                Color.rgb(104, 122, 155)
-        );
-
+        type.setTextColor(Color.rgb(104, 122, 155));
         type.setTextSize(11);
 
-        LinearLayout.LayoutParams typeParams =
-                new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
+        TextView venueView = new TextView(this);
+        venueView.setText(venue.isEmpty() ? "" : "Venue: " + venue);
+        venueView.setTextColor(Color.rgb(104, 122, 155));
+        venueView.setTextSize(11);
 
-        typeParams.setMargins(
-                0,
-                dp(3),
-                0,
-                0
-        );
-
-        type.setLayoutParams(typeParams);
-
-        // Add information
         information.addView(code);
         information.addView(name);
         information.addView(type);
+        if (!venue.isEmpty()) {
+            information.addView(venueView);
+        }
 
-        // Add everything to card
         card.addView(time);
         card.addView(accentLine);
         card.addView(information);
 
-        // Add card to timetable
         scheduleContainer.addView(card);
     }
 
-    private int dp(int value) {
+    private String safe(String value) {
+        return value == null ? "" : value;
+    }
 
-        return (int) (
-                value *
-                        getResources()
-                                .getDisplayMetrics()
-                                .density
-        );
+    private int dp(int value) {
+        return (int) (value * getResources()
+                .getDisplayMetrics().density);
     }
 }
