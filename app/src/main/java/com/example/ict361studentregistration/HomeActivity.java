@@ -23,6 +23,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.LiveData;
+
+import com.example.ict361studentregistration.data.room.AppDatabase;
+import com.example.ict361studentregistration.data.room.Timetable;
 
 import java.util.HashSet;
 import java.util.List;
@@ -38,6 +42,8 @@ public class HomeActivity extends AppCompatActivity {
     private ImageButton backButton;
     private Button postAnnouncementButton;
     private Button addStudentRecordButton;
+    private LinearLayout lecturerTimetableContainer;
+    private AppDatabase appDatabase;
 
     // Lecturer Profile Registered Details
     private String lecturerTitle = "Dr.";
@@ -71,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         viewModel = new ViewModelProvider(this).get(LecturerGroupViewModel.class);
+        appDatabase = AppDatabase.getDatabase(getApplicationContext());
 
         coursesContainer = findViewById(R.id.courses_container);
         noticeBoardContainer = findViewById(R.id.notice_board_container);
@@ -94,6 +101,12 @@ public class HomeActivity extends AppCompatActivity {
         sectionGroups = findViewById(R.id.section_groups);
         sectionTimetable = findViewById(R.id.section_timetable);
         sectionMore = findViewById(R.id.section_more);
+        lecturerTimetableContainer = findViewById(R.id.lecturer_timetable_container);
+
+        // Observe Room so saved classes appear automatically in the lecturer timetable.
+        if (lecturerTimetableContainer != null) {
+            appDatabase.timetableDao().getAllTimetable().observe(this, this::renderTimetable);
+        }
 
         // Get Lecturer info passed from login or registration
         String userName = getIntent().getStringExtra("USER_NAME");
@@ -160,6 +173,15 @@ public class HomeActivity extends AppCompatActivity {
 
         // Add Student Record
         addStudentRecordButton.setOnClickListener(v -> showAddStudentDialog());
+
+        // Open the form used by lecturers to add a timetable class.
+        Button addTimetableButton = findViewById(R.id.add_timetable_button);
+        if (addTimetableButton != null) {
+            addTimetableButton.setOnClickListener(v -> {
+                Intent intent = new Intent(HomeActivity.this, AddTimetableActivity.class);
+                startActivity(intent);
+            });
+        }
 
         // Quick Action clicks down the notice board
         quickActionNotification.setOnClickListener(v -> {
@@ -1039,6 +1061,72 @@ public class HomeActivity extends AppCompatActivity {
                 )
                 .setPositiveButton("OK", null)
                 .show();
+    }
+
+
+    private void renderTimetable(List<Timetable> timetableEntries) {
+        if (lecturerTimetableContainer == null) return;
+
+        lecturerTimetableContainer.removeAllViews();
+
+        if (timetableEntries == null || timetableEntries.isEmpty()) {
+            TextView empty = new TextView(this);
+            empty.setText("No classes added yet. Tap + Add Class to create your timetable.");
+            empty.setTextColor(Color.parseColor("#607D8B"));
+            empty.setTextSize(14);
+            empty.setPadding(0, dp(12), 0, dp(8));
+            lecturerTimetableContainer.addView(empty);
+            return;
+        }
+
+        for (Timetable item : timetableEntries) {
+            LinearLayout card = new LinearLayout(this);
+            card.setOrientation(LinearLayout.VERTICAL);
+            card.setPadding(dp(14), dp(14), dp(14), dp(14));
+
+            GradientDrawable background = new GradientDrawable();
+            background.setColor(Color.WHITE);
+            background.setCornerRadius(dp(12));
+            background.setStroke(dp(1), Color.parseColor("#E0E0E0"));
+            card.setBackground(background);
+
+            LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            cardParams.bottomMargin = dp(10);
+            card.setLayoutParams(cardParams);
+
+            TextView course = new TextView(this);
+            String code = item.courseCode == null ? "" : item.courseCode;
+            String name = item.courseName == null ? "" : item.courseName;
+            course.setText(code + (name.isEmpty() ? "" : " — " + name));
+            course.setTextColor(Color.parseColor("#D32F2F"));
+            course.setTextSize(16);
+            course.setTypeface(null, Typeface.BOLD);
+
+            TextView dayTime = new TextView(this);
+            dayTime.setText(
+                    (item.dayOfWeek == null ? "" : item.dayOfWeek) + " • " +
+                            (item.startTime == null ? "" : item.startTime) + " – " +
+                            (item.endTime == null ? "" : item.endTime));
+            dayTime.setTextColor(Color.parseColor("#263238"));
+            dayTime.setTextSize(14);
+            dayTime.setPadding(0, dp(6), 0, dp(2));
+
+            TextView details = new TextView(this);
+            details.setText(
+                    "Venue: " + (item.venue == null || item.venue.trim().isEmpty() ? "Not set" : item.venue) +
+                            "\nProgramme: " + (item.programme == null || item.programme.trim().isEmpty() ? "Not set" : item.programme) +
+                            "\nType: " + (item.classType == null || item.classType.trim().isEmpty() ? "Class" : item.classType));
+            details.setTextColor(Color.parseColor("#546E7A"));
+            details.setTextSize(13);
+            details.setPadding(0, dp(4), 0, 0);
+
+            card.addView(course);
+            card.addView(dayTime);
+            card.addView(details);
+            lecturerTimetableContainer.addView(card);
+        }
     }
 
     private int dp(int value) {
