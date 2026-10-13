@@ -1,3 +1,4 @@
+
 package com.example.ict361studentregistration;
 
 import android.content.Intent;
@@ -11,156 +12,235 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.ict361studentregistration.data.room.AppDatabase;
+import com.example.ict361studentregistration.data.room.Lecturer;
+import com.example.ict361studentregistration.data.room.LecturerDao;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class CreateLecturerPasswordActivity extends AppCompatActivity {
 
-    private ImageButton backButton;
-    private ImageButton helpButton;
-
-    private EditText passwordInput;
-    private EditText confirmPasswordInput;
-
-    private ImageButton passwordEyeButton;
-    private ImageButton confirmPasswordEyeButton;
-
+    private ImageButton backButton, helpButton;
+    private EditText passwordInput, confirmPasswordInput;
+    private ImageButton passwordEyeButton, confirmPasswordEyeButton;
     private Button completeRegistrationButton;
 
     private boolean passwordVisible = false;
     private boolean confirmPasswordVisible = false;
 
+    private final ExecutorService executor =
+            Executors.newSingleThreadExecutor();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_create_lecturer_password);
 
         backButton = findViewById(R.id.set_pwd_back_button);
         helpButton = findViewById(R.id.set_pwd_help_button);
-
         passwordInput = findViewById(R.id.lecturer_set_pwd_input);
         confirmPasswordInput = findViewById(R.id.lecturer_set_confirm_input);
-
         passwordEyeButton = findViewById(R.id.lecturer_set_pwd_eye);
         confirmPasswordEyeButton = findViewById(R.id.lecturer_set_confirm_eye);
+        completeRegistrationButton =
+                findViewById(R.id.complete_registration_button);
 
-        completeRegistrationButton = findViewById(R.id.complete_registration_button);
-
-
-        // BACK BUTTON
         backButton.setOnClickListener(v -> finish());
 
-
-        // PASSWORD EYE
         passwordEyeButton.setOnClickListener(v -> {
-            if (passwordVisible) {
-                passwordInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                passwordEyeButton.setImageResource(R.drawable.password_eye_red);
-                passwordEyeButton.setAlpha(1.0f);
-                passwordVisible = false;
-            } else {
-                passwordInput.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                passwordEyeButton.setImageResource(R.drawable.password_eye_off_red);
-                passwordEyeButton.setAlpha(0.6f);
-                passwordVisible = true;
-            }
-            passwordInput.setSelection(passwordInput.getText().length());
+            passwordVisible = !passwordVisible;
+            passwordInput.setTransformationMethod(
+                    passwordVisible
+                            ? HideReturnsTransformationMethod.getInstance()
+                            : PasswordTransformationMethod.getInstance()
+            );
+            passwordEyeButton.setImageResource(
+                    passwordVisible
+                            ? R.drawable.password_eye_off_red
+                            : R.drawable.password_eye_red
+            );
+            passwordInput.setSelection(passwordInput.length());
         });
 
-
-        // CONFIRM PASSWORD EYE
         confirmPasswordEyeButton.setOnClickListener(v -> {
-            if (confirmPasswordVisible) {
-                confirmPasswordInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                confirmPasswordEyeButton.setImageResource(R.drawable.password_eye_red);
-                confirmPasswordEyeButton.setAlpha(1.0f);
-                confirmPasswordVisible = false;
-            } else {
-                confirmPasswordInput.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                confirmPasswordEyeButton.setImageResource(R.drawable.password_eye_off_red);
-                confirmPasswordEyeButton.setAlpha(0.6f);
-                confirmPasswordVisible = true;
-            }
-            confirmPasswordInput.setSelection(confirmPasswordInput.getText().length());
+            confirmPasswordVisible = !confirmPasswordVisible;
+            confirmPasswordInput.setTransformationMethod(
+                    confirmPasswordVisible
+                            ? HideReturnsTransformationMethod.getInstance()
+                            : PasswordTransformationMethod.getInstance()
+            );
+            confirmPasswordEyeButton.setImageResource(
+                    confirmPasswordVisible
+                            ? R.drawable.password_eye_off_red
+                            : R.drawable.password_eye_red
+            );
+            confirmPasswordInput.setSelection(confirmPasswordInput.length());
         });
 
+        completeRegistrationButton.setOnClickListener(v ->
+                completeRegistration()
+        );
 
-        // COMPLETE REGISTRATION BUTTON
-        completeRegistrationButton.setOnClickListener(v -> {
-            String password = passwordInput.getText().toString();
-            String confirmPassword = confirmPasswordInput.getText().toString();
+        helpButton.setOnClickListener(v ->
+                new AlertDialog.Builder(this)
+                        .setTitle("Set Password Help")
+                        .setMessage(
+                                "Use at least 8 characters, including a letter, " +
+                                        "a number and a special character. Both password " +
+                                        "fields must match."
+                        )
+                        .setPositiveButton("GOT IT", null)
+                        .show()
+        );
+    }
 
-            if (password.isEmpty()) {
-                passwordInput.setError("Enter your password");
-                passwordInput.requestFocus();
-                return;
-            }
+    private void completeRegistration() {
+        String password = passwordInput.getText().toString();
+        String confirmation = confirmPasswordInput.getText().toString();
 
-            if (password.length() < 8) {
-                passwordInput.setError("Password must be at least 8 characters long");
-                passwordInput.requestFocus();
-                return;
-            }
+        if (password.length() < 8 ||
+                !password.matches(".*[a-zA-Z].*") ||
+                !password.matches(".*[0-9].*") ||
+                !password.matches(".*[^a-zA-Z0-9].*")) {
+            passwordInput.setError(
+                    "Use at least 8 characters, including a letter, " +
+                            "a number and a special character"
+            );
+            passwordInput.requestFocus();
+            return;
+        }
 
-            boolean hasLetter = password.matches(".*[a-zA-Z].*");
-            boolean hasDigit = password.matches(".*[0-9].*");
-            boolean hasSpecialChar = password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?~`\\p{Punct}].*") || password.matches(".*[^a-zA-Z0-9].*");
+        if (!password.equals(confirmation)) {
+            confirmPasswordInput.setError("Passwords do not match");
+            confirmPasswordInput.requestFocus();
+            return;
+        }
 
-            if (!hasLetter || !hasDigit || !hasSpecialChar) {
-                passwordInput.setError("Password must include letters, numbers, and at least one special character (!@#$)");
-                passwordInput.requestFocus();
-                return;
-            }
+        Intent source = getIntent();
 
-            if (confirmPassword.isEmpty()) {
-                confirmPasswordInput.setError("Confirm your password");
-                confirmPasswordInput.requestFocus();
-                return;
-            }
+        String lecturerId = source.getStringExtra("STAFF_ID");
+        String firstName = source.getStringExtra("FIRST_NAME");
+        String lastName = source.getStringExtra("LAST_NAME");
+        String email = source.getStringExtra("EMAIL");
+        String phone = source.getStringExtra("CONTACT");
 
-            if (!password.equals(confirmPassword)) {
-                confirmPasswordInput.setError("Passwords do not match");
-                confirmPasswordInput.requestFocus();
-                return;
-            }
-
-            // Success dialog
-            new AlertDialog.Builder(CreateLecturerPasswordActivity.this)
-                    .setTitle("Lecturer Account Created Successfully!")
+        if (lecturerId == null || lecturerId.trim().isEmpty() ||
+                firstName == null || firstName.trim().isEmpty() ||
+                lastName == null || lastName.trim().isEmpty() ||
+                email == null || email.trim().isEmpty() ||
+                phone == null || phone.trim().isEmpty()) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Registration details missing")
                     .setMessage(
-                            "Your lecturer account and password have been registered successfully.\n\n" +
-                                    "You can now sign in to the Lecturer Portal."
+                            "Some lecturer details were not received. " +
+                                    "Please return to lecturer registration and try again."
                     )
-                    .setPositiveButton("PROCEED TO HOME", (dialog, which) -> {
-                        Intent intent = new Intent(
-                                CreateLecturerPasswordActivity.this,
-                                HomeActivity.class
-                        );
-                        if (getIntent().getExtras() != null) {
-                            intent.putExtras(getIntent().getExtras());
-                        }
-                        if (intent.getStringExtra("USER_NAME") == null) {
-                            String firstName = getIntent().getStringExtra("FIRST_NAME");
-                            intent.putExtra("USER_NAME", (firstName != null && !firstName.trim().isEmpty()) ? firstName : "Lecturer");
-                        }
-                        startActivity(intent);
-                        finish();
-                    })
-                    .setCancelable(false)
+                    .setPositiveButton("OK", null)
                     .show();
-        });
+            return;
+        }
 
+        lecturerId = lecturerId.trim();
+        firstName = firstName.trim();
+        lastName = lastName.trim();
+        email = email.trim();
+        phone = phone.trim();
 
-        // HELP BUTTON
-        helpButton.setOnClickListener(v -> {
-            new AlertDialog.Builder(CreateLecturerPasswordActivity.this)
-                    .setTitle("Set Password Help")
-                    .setMessage(
-                            "Create a secure password with at least 8 characters, including letters, numbers, and special characters.\n\n" +
-                                    "Ensure both password fields match before tapping COMPLETE REGISTRATION."
-                    )
-                    .setPositiveButton("GOT IT", null)
-                    .show();
+        final String id = lecturerId;
+        final String first = firstName;
+        final String last = lastName;
+        final String mail = email;
+        final String contact = phone;
+        final String rawPassword = password;
+
+        completeRegistrationButton.setEnabled(false);
+
+        executor.execute(() -> {
+            try {
+                LecturerDao dao =
+                        AppDatabase.getDatabase(getApplicationContext())
+                                .lecturerDao();
+
+                if (dao.findLecturerById(id) != null ||
+                        dao.findLecturerByEmail(mail) != null) {
+                    runOnUiThread(() -> {
+                        completeRegistrationButton.setEnabled(true);
+                        new AlertDialog.Builder(this)
+                                .setTitle("Account already exists")
+                                .setMessage(
+                                        "This lecturer ID or email is already " +
+                                                "registered. Please sign in instead."
+                                )
+                                .setPositiveButton("GO TO SIGN IN",
+                                        (dialog, which) -> {
+                                            startActivity(new Intent(
+                                                    this, LecturerActivity.class));
+                                            finish();
+                                        })
+                                .setNegativeButton("CANCEL", null)
+                                .show();
+                    });
+                    return;
+                }
+
+                String salt = PasswordUtils.generateSalt();
+                String hash = PasswordUtils.hashPassword(rawPassword, salt);
+
+                Lecturer lecturer = new Lecturer();
+                lecturer.lecturerId = id;
+                lecturer.firstName = first;
+                lecturer.lastName = last;
+                lecturer.email = mail;
+                lecturer.phone = contact;
+                lecturer.passwordSalt = salt;
+                lecturer.passwordHash = hash;
+
+                dao.insertLecturer(lecturer);
+
+                runOnUiThread(() -> {
+                    completeRegistrationButton.setEnabled(true);
+                    new AlertDialog.Builder(this)
+                            .setTitle("Account Created Successfully")
+                            .setMessage(
+                                    "Your lecturer account has been saved. " +
+                                            "You can now sign in using your registered " +
+                                            "email or lecturer ID and password."
+                            )
+                            .setCancelable(false)
+                            .setPositiveButton("GO TO SIGN IN", (dialog, which) -> {
+                                Intent intent = new Intent(
+                                        this, LecturerActivity.class);
+                                intent.addFlags(
+                                        Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                                Intent.FLAG_ACTIVITY_SINGLE_TOP
+                                );
+                                startActivity(intent);
+                                finish();
+                            })
+                            .show();
+                });
+
+            } catch (Exception e) {
+                runOnUiThread(() -> {
+                    completeRegistrationButton.setEnabled(true);
+                    new AlertDialog.Builder(this)
+                            .setTitle("Registration Failed")
+                            .setMessage(
+                                    "The account could not be saved. " +
+                                            "Please try again. Details: " +
+                                            e.getClass().getSimpleName()
+                            )
+                            .setPositiveButton("OK", null)
+                            .show();
+                });
+            }
         });
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        executor.shutdown();
+    }
 }

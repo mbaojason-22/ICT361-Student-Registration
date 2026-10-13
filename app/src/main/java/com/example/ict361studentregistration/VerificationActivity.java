@@ -1,15 +1,17 @@
+
 package com.example.ict361studentregistration;
 
-import android.animation.Animator;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.ToneGenerator;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.os.VibratorManager;
@@ -27,37 +29,36 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.ict361studentregistration.data.room.AppDatabase;
+import com.example.ict361studentregistration.data.room.Student;
+import com.google.gson.JsonObject;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class VerificationActivity extends AppCompatActivity {
 
-    private EditText code1;
-    private EditText code2;
-    private EditText code3;
-    private EditText code4;
-    private EditText code5;
-    private EditText code6;
-
+    private EditText code1, code2, code3, code4, code5, code6;
     private Button verifyButton;
-
-    private TextView contactText;
-    private TextView resendText;
-    private TextView changeContactText;
-
-    private ImageButton backButton;
-    private ImageButton helpButton;
+    private TextView contactText, resendText, changeContactText;
+    private ImageButton backButton, helpButton;
 
     private CountDownTimer countDownTimer;
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private final ExecutorService databaseExecutor =
+            Executors.newSingleThreadExecutor();
 
-    private static final String DEMO_CODE = "123456";
+    private boolean requestInProgress = false;
+    private boolean emailVerified = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_verification);
-
-        // =========================================================
-        // FIND VIEWS
-        // =========================================================
 
         code1 = findViewById(R.id.code_digit_1);
         code2 = findViewById(R.id.code_digit_2);
@@ -66,161 +67,49 @@ public class VerificationActivity extends AppCompatActivity {
         code5 = findViewById(R.id.code_digit_5);
         code6 = findViewById(R.id.code_digit_6);
 
-        verifyButton =
-                findViewById(
-                        R.id.verify_account_button
-                );
+        verifyButton = findViewById(R.id.verify_account_button);
+        contactText = findViewById(R.id.verification_contact);
+        resendText = findViewById(R.id.resend_code_text);
+        changeContactText = findViewById(R.id.change_contact_text);
+        backButton = findViewById(R.id.verification_back_button);
+        helpButton = findViewById(R.id.verification_help_button);
 
-        contactText =
-                findViewById(
-                        R.id.verification_contact
-                );
-
-        resendText =
-                findViewById(
-                        R.id.resend_code_text
-                );
-
-        changeContactText =
-                findViewById(
-                        R.id.change_contact_text
-                );
-
-        backButton =
-                findViewById(
-                        R.id.verification_back_button
-                );
-
-        helpButton =
-                findViewById(
-                        R.id.verification_help_button
-                );
-
-        // =========================================================
-        // GET CONTACT
-        // =========================================================
-
-        String contact =
-                getIntent().getStringExtra("contact");
-
-        if (contact != null && !contact.isEmpty()) {
-
-            contactText.setText(
-                    maskContact(contact)
-            );
+        String email = getIntent().getStringExtra("contact");
+        if (email != null && !email.isEmpty()) {
+            contactText.setText(maskContact(email));
         }
 
-        // =========================================================
-        // OTP BOXES
-        // =========================================================
-
         setupCodeBoxes();
-
-        // =========================================================
-        // COUNTDOWN
-        // =========================================================
-
         startCountdown();
 
-        // =========================================================
-        // VERIFY
-        // =========================================================
+        verifyButton.setOnClickListener(v -> verifyCode());
+        resendText.setOnClickListener(v -> resendCode());
 
-        verifyButton.setOnClickListener(
-                v -> verifyCode()
+        changeContactText.setOnClickListener(v ->
+                new AlertDialog.Builder(this)
+                        .setTitle("Wrong Email?")
+                        .setMessage("Go back and update your registration details.")
+                        .setPositiveButton("OK", null)
+                        .show()
         );
 
-        // =========================================================
-        // RESEND
-        // =========================================================
+        backButton.setOnClickListener(v -> finish());
 
-        resendText.setOnClickListener(v -> {
-
-            if (resendText.isEnabled()) {
-
-                new AlertDialog.Builder(
-                        VerificationActivity.this
-                )
-                        .setTitle("Code Sent")
+        helpButton.setOnClickListener(v ->
+                new AlertDialog.Builder(this)
+                        .setTitle("Email Verification")
                         .setMessage(
-                                "A new verification code has been requested.\n\n"
-                                        + "For this local demonstration, use:\n\n"
-                                        + "123456"
+                                "Enter the six-digit verification code sent to your email. " +
+                                        "The code expires after 10 minutes. You can request a new code " +
+                                        "using RESEND CODE."
                         )
-                        .setPositiveButton(
-                                "OK",
-                                null
-                        )
-                        .show();
-
-                startCountdown();
-            }
-        });
-
-        // =========================================================
-        // WRONG CONTACT
-        // =========================================================
-
-        changeContactText.setOnClickListener(v -> {
-
-            new AlertDialog.Builder(
-                    VerificationActivity.this
-            )
-                    .setTitle("Wrong Contact?")
-                    .setMessage(
-                            "If the email address or phone number is incorrect, "
-                                    + "go back and update your registration details."
-                    )
-                    .setPositiveButton(
-                            "OK",
-                            null
-                    )
-                    .show();
-        });
-
-        // =========================================================
-        // BACK
-        // =========================================================
-
-        backButton.setOnClickListener(
-                v -> finish()
+                        .setPositiveButton("GOT IT", null)
+                        .show()
         );
-
-        // =========================================================
-        // HELP
-        // =========================================================
-
-        helpButton.setOnClickListener(v -> {
-
-            new AlertDialog.Builder(
-                    VerificationActivity.this
-            )
-                    .setTitle("Verification Help")
-                    .setMessage(
-                            "A 6-digit verification code has been sent "
-                                    + "to the email address or phone number "
-                                    + "you provided.\n\n"
-                                    + "Enter the six digits into the boxes "
-                                    + "and press VERIFY ACCOUNT.\n\n"
-                                    + "For this local demonstration, the "
-                                    + "verification code is:\n\n"
-                                    + "123456\n\n"
-                                    + "Never share your verification code "
-                                    + "with anyone."
-                    )
-                    .setPositiveButton(
-                            "GOT IT",
-                            null
-                    )
-                    .show();
-        });
     }
 
-    // =============================================================
-    // VERIFY CODE
-    // =============================================================
-
     private void verifyCode() {
+        if (requestInProgress) return;
 
         String enteredCode =
                 code1.getText().toString()
@@ -230,674 +119,424 @@ public class VerificationActivity extends AppCompatActivity {
                         + code5.getText().toString()
                         + code6.getText().toString();
 
-        // =========================================================
-        // INCOMPLETE
-        // =========================================================
-
-        if (enteredCode.length() != 6) {
-
-            new AlertDialog.Builder(
-                    VerificationActivity.this
-            )
-                    .setTitle("Incomplete Code")
-                    .setMessage(
-                            "Please enter all 6 digits."
-                    )
-                    .setPositiveButton(
-                            "OK",
-                            null
-                    )
-                    .show();
-
+        if (!enteredCode.matches("\\d{6}")) {
+            showMessage("Incomplete Code", "Please enter all six digits.");
             return;
         }
 
-        // =========================================================
-        // WRONG CODE
-        // =========================================================
-
-        if (!enteredCode.equals(DEMO_CODE)) {
-
-            // Error sound
-            playErrorSound();
-
-            // Error vibration
-            vibrateError();
-
-            // Red X animation
-            showErrorAnimation();
-
+        String email = getIntent().getStringExtra("contact");
+        if (email == null || email.trim().isEmpty()) {
+            showMessage("Missing Email", "Return to registration and enter your email again.");
             return;
         }
 
-        // =========================================================
-        // CORRECT CODE
-        // =========================================================
-
-        showVerificationAnimation();
-    }
-
-    // =============================================================
-    // SUCCESS ANIMATION
-    // =============================================================
-
-    private void showVerificationAnimation() {
-
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
-
-        // Success sound
-        playSuccessSound();
-
-        // Success vibration
-        vibrateSuccess();
-
-        final Dialog animationDialog =
-                new Dialog(this);
-
-        animationDialog.requestWindowFeature(
-                Window.FEATURE_NO_TITLE
-        );
-
-        VerificationAnimationView animationView =
-                new VerificationAnimationView(this);
-
-        animationDialog.setContentView(
-                animationView
-        );
-
-        animationDialog.setCancelable(false);
-        animationDialog.setCanceledOnTouchOutside(false);
-
-        Window window =
-                animationDialog.getWindow();
-
-        if (window != null) {
-
-            window.setBackgroundDrawableResource(
-                    android.R.color.transparent
-            );
-
-            WindowManager.LayoutParams params =
-                    window.getAttributes();
-
-            params.width = dpToPx(280);
-            params.height = dpToPx(280);
-            params.gravity = Gravity.CENTER;
-            params.dimAmount = 0.35f;
-
-            window.setAttributes(params);
-
-            window.addFlags(
-                    WindowManager.LayoutParams.FLAG_DIM_BEHIND
-            );
-        }
-
-        animationDialog.setOnShowListener(
-                dialog -> {
-
-                    animationView.startAnimation();
-
-                    new Handler().postDelayed(
-                            () -> {
-
-                                if (animationDialog.isShowing()) {
-                                    animationDialog.dismiss();
-                                }
-
-                                openStudentPortal();
-
-                            },
-                            1850
-                    );
-                }
-        );
-
-        animationDialog.show();
-
-        Window shownWindow =
-                animationDialog.getWindow();
-
-        if (shownWindow != null) {
-
-            WindowManager.LayoutParams params =
-                    shownWindow.getAttributes();
-
-            params.width = dpToPx(280);
-            params.height = dpToPx(280);
-            params.gravity = Gravity.CENTER;
-            params.dimAmount = 0.35f;
-
-            shownWindow.setAttributes(params);
-
-            shownWindow.setBackgroundDrawableResource(
-                    android.R.color.transparent
-            );
-
-            shownWindow.addFlags(
-                    WindowManager.LayoutParams.FLAG_DIM_BEHIND
-            );
-        }
-    }
-
-    // =============================================================
-    // ERROR ANIMATION
-    // =============================================================
-
-    private void showErrorAnimation() {
-
-        final Dialog animationDialog =
-                new Dialog(this);
-
-        animationDialog.requestWindowFeature(
-                Window.FEATURE_NO_TITLE
-        );
-
-        VerificationAnimationView animationView =
-                new VerificationAnimationView(this);
-
-        animationDialog.setContentView(
-                animationView
-        );
-
-        animationDialog.setCancelable(false);
-        animationDialog.setCanceledOnTouchOutside(false);
-
-        Window window =
-                animationDialog.getWindow();
-
-        if (window != null) {
-
-            window.setBackgroundDrawableResource(
-                    android.R.color.transparent
-            );
-
-            WindowManager.LayoutParams params =
-                    window.getAttributes();
-
-            params.width = dpToPx(280);
-            params.height = dpToPx(280);
-            params.gravity = Gravity.CENTER;
-            params.dimAmount = 0.35f;
-
-            window.setAttributes(params);
-
-            window.addFlags(
-                    WindowManager.LayoutParams.FLAG_DIM_BEHIND
-            );
-        }
-
-        animationDialog.setOnShowListener(
-                dialog -> {
-
-                    animationView.startErrorAnimation();
-
-                    // Let the X animation finish,
-                    // then return to the verification screen.
-                    new Handler().postDelayed(
-                            () -> {
-
-                                if (animationDialog.isShowing()) {
-                                    animationDialog.dismiss();
-                                }
-
-                            },
-                            1500
-                    );
-                }
-        );
-
-        animationDialog.show();
-
-        Window shownWindow =
-                animationDialog.getWindow();
-
-        if (shownWindow != null) {
-
-            WindowManager.LayoutParams params =
-                    shownWindow.getAttributes();
-
-            params.width = dpToPx(280);
-            params.height = dpToPx(280);
-            params.gravity = Gravity.CENTER;
-            params.dimAmount = 0.35f;
-
-            shownWindow.setAttributes(params);
-
-            shownWindow.setBackgroundDrawableResource(
-                    android.R.color.transparent
-            );
-
-            shownWindow.addFlags(
-                    WindowManager.LayoutParams.FLAG_DIM_BEHIND
-            );
-        }
-    }
-
-    // =============================================================
-    // OPEN STUDENT PORTAL
-    // =============================================================
-
-    private void openStudentPortal() {
-
-        Intent intent =
-                new Intent(
-                        VerificationActivity.this,
-                        StudentActivity.class
-                );
-
-        intent.addFlags(
-                Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        | Intent.FLAG_ACTIVITY_SINGLE_TOP
-        );
-
-        startActivity(intent);
-
-        finish();
-    }
-
-    // =============================================================
-    // SUCCESS SOUND
-    // =============================================================
-
-    private void playSuccessSound() {
-
-        MediaPlayer mediaPlayer =
-                MediaPlayer.create(
-                        this,
-                        R.raw.success
-                );
-
-        if (mediaPlayer != null) {
-
-            mediaPlayer.setOnCompletionListener(
-                    MediaPlayer::release
-            );
-
-            mediaPlayer.start();
-        }
-    }
-
-    // =============================================================
-    // ERROR SOUND
-    // =============================================================
-
-    private void playErrorSound() {
-
-        ToneGenerator toneGenerator =
-                new ToneGenerator(
-                        AudioManager.STREAM_NOTIFICATION,
-                        80
-                );
-
-        toneGenerator.startTone(
-                ToneGenerator.TONE_PROP_NACK,
-                180
-        );
-
-        new Handler().postDelayed(
-                toneGenerator::release,
-                250
-        );
-    }
-
-    // =============================================================
-    // SUCCESS VIBRATION
-    // =============================================================
-
-    private void vibrateSuccess() {
-
-        Vibrator vibrator;
-
-        if (android.os.Build.VERSION.SDK_INT >= 31) {
-
-            VibratorManager vibratorManager =
-                    (VibratorManager)
-                            getSystemService(
-                                    Context.VIBRATOR_MANAGER_SERVICE
-                            );
-
-            vibrator =
-                    vibratorManager.getDefaultVibrator();
-
-        } else {
-
-            vibrator =
-                    (Vibrator)
-                            getSystemService(
-                                    Context.VIBRATOR_SERVICE
-                            );
-        }
-
-        if (vibrator == null) {
-            return;
-        }
-
-        if (android.os.Build.VERSION.SDK_INT >= 26) {
-
-            vibrator.vibrate(
-                    VibrationEffect.createOneShot(
-                            70,
-                            VibrationEffect.DEFAULT_AMPLITUDE
-                    )
-            );
-
-        } else {
-
-            vibrator.vibrate(70);
-        }
-    }
-
-    // =============================================================
-    // ERROR VIBRATION
-    // =============================================================
-
-    private void vibrateError() {
-
-        Vibrator vibrator;
-
-        if (android.os.Build.VERSION.SDK_INT >= 31) {
-
-            VibratorManager vibratorManager =
-                    (VibratorManager)
-                            getSystemService(
-                                    Context.VIBRATOR_MANAGER_SERVICE
-                            );
-
-            vibrator =
-                    vibratorManager.getDefaultVibrator();
-
-        } else {
-
-            vibrator =
-                    (Vibrator)
-                            getSystemService(
-                                    Context.VIBRATOR_SERVICE
-                            );
-        }
-
-        if (vibrator == null) {
-            return;
-        }
-
-        if (android.os.Build.VERSION.SDK_INT >= 26) {
-
-            long[] pattern = {
-                    0,
-                    80,
-                    60,
-                    120
-            };
-
-            vibrator.vibrate(
-                    VibrationEffect.createWaveform(
-                            pattern,
-                            -1
-                    )
-            );
-
-        } else {
-
-            long[] pattern = {
-                    0,
-                    80,
-                    60,
-                    120
-            };
-
-            vibrator.vibrate(
-                    pattern,
-                    -1
-            );
-        }
-    }
-
-    // =============================================================
-    // DP TO PIXELS
-    // =============================================================
-
-    private int dpToPx(int dp) {
-
-        return Math.round(
-                dp
-                        * getResources()
-                        .getDisplayMetrics()
-                        .density
-        );
-    }
-
-    // =============================================================
-    // OTP BOX SETUP
-    // =============================================================
-
-    private void setupCodeBoxes() {
-
-        setupNextDigit(
-                code1,
-                code2
-        );
-
-        setupNextDigit(
-                code2,
-                code3
-        );
-
-        setupNextDigit(
-                code3,
-                code4
-        );
-
-        setupNextDigit(
-                code4,
-                code5
-        );
-
-        setupNextDigit(
-                code5,
-                code6
-        );
-
-        setupBackspace(
-                code2,
-                code1
-        );
-
-        setupBackspace(
-                code3,
-                code2
-        );
-
-        setupBackspace(
-                code4,
-                code3
-        );
-
-        setupBackspace(
-                code5,
-                code4
-        );
-
-        setupBackspace(
-                code6,
-                code5
-        );
-
-        code1.requestFocus();
-    }
-
-    // =============================================================
-    // NEXT OTP BOX
-    // =============================================================
-
-    private void setupNextDigit(
-            EditText current,
-            EditText next
-    ) {
-
-        current.addTextChangedListener(
-                new TextWatcher() {
-
+        requestInProgress = true;
+        verifyButton.setEnabled(false);
+        resendText.setEnabled(false);
+
+        JsonObject request = new JsonObject();
+        request.addProperty("email", email);
+        request.addProperty("verification_code", enteredCode);
+
+        AuthApiClient.getService(this).verifyEmail(request)
+                .enqueue(new Callback<JsonObject>() {
                     @Override
-                    public void beforeTextChanged(
-                            CharSequence s,
-                            int start,
-                            int count,
-                            int after
+                    public void onResponse(
+                            Call<JsonObject> call,
+                            Response<JsonObject> response
                     ) {
-                    }
+                        requestInProgress = false;
+                        verifyButton.setEnabled(true);
 
-                    @Override
-                    public void onTextChanged(
-                            CharSequence s,
-                            int start,
-                            int before,
-                            int count
-                    ) {
+                        JsonObject body = response.body();
+                        boolean success = response.isSuccessful()
+                                && body != null
+                                && body.has("success")
+                                && body.get("success").getAsBoolean();
 
-                        if (s.length() == 1) {
-                            next.requestFocus();
+                        if (success) {
+                            emailVerified = true;
+                            if (countDownTimer != null) countDownTimer.cancel();
+                            showVerificationAnimation();
+                        } else {
+                            resendText.setEnabled(true);
+                            String message = "Verification failed. Check the code and try again.";
+                            if (body != null && body.has("message")) {
+                                message = body.get("message").getAsString();
+                            }
+                            playErrorSound();
+                            vibrateError();
+                            showErrorAnimation();
+                            showMessage("Verification Error", message);
                         }
                     }
 
                     @Override
-                    public void afterTextChanged(
-                            Editable s
-                    ) {
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        requestInProgress = false;
+                        verifyButton.setEnabled(true);
+                        resendText.setEnabled(true);
+                        showMessage("Connection Error",
+                                "Could not contact the verification server. Check your network and try again.\n\n"
+                                        + t.getMessage());
                     }
-                }
-        );
+                });
     }
 
-    // =============================================================
-    // BACKSPACE
-    // =============================================================
+    private void resendCode() {
+        if (requestInProgress || !resendText.isEnabled()) return;
 
-    private void setupBackspace(
-            EditText current,
-            EditText previous
-    ) {
-
-        current.setOnKeyListener(
-                (v, keyCode, event) -> {
-
-                    if (keyCode
-                            == KeyEvent.KEYCODE_DEL
-                            && event.getAction()
-                            == KeyEvent.ACTION_DOWN
-                            && current.getText().length() == 0) {
-
-                        previous.requestFocus();
-
-                        return true;
-                    }
-
-                    return false;
-                }
-        );
-    }
-
-    // =============================================================
-    // RESEND COUNTDOWN
-    // =============================================================
-
-    private void startCountdown() {
-
-        resendText.setEnabled(false);
-
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
+        String email = getIntent().getStringExtra("contact");
+        if (email == null || email.trim().isEmpty()) {
+            showMessage("Missing Email", "Return to registration and enter your email again.");
+            return;
         }
 
-        countDownTimer =
-                new CountDownTimer(
-                        30000,
-                        1000
-                ) {
+        requestInProgress = true;
+        resendText.setEnabled(false);
 
+        JsonObject request = new JsonObject();
+        request.addProperty("email", email);
+
+        AuthApiClient.getService(this).resendVerificationCode(request)
+                .enqueue(new Callback<JsonObject>() {
                     @Override
-                    public void onTick(
-                            long millisUntilFinished
+                    public void onResponse(
+                            Call<JsonObject> call,
+                            Response<JsonObject> response
                     ) {
+                        requestInProgress = false;
 
-                        long seconds =
-                                millisUntilFinished / 1000;
+                        JsonObject body = response.body();
+                        boolean success = response.isSuccessful()
+                                && body != null
+                                && body.has("success")
+                                && body.get("success").getAsBoolean();
 
-                        resendText.setText(
-                                "Resend code in 00:"
-                                        + String.format(
-                                        "%02d",
-                                        seconds
-                                )
-                        );
+                        if (success) {
+                            clearCodeBoxes();
+                            startCountdown();
+                            showMessage("Code Sent",
+                                    body.has("message")
+                                            ? body.get("message").getAsString()
+                                            : "A new verification code has been sent to your email.");
+                        } else {
+                            resendText.setEnabled(true);
+                            String message = "Could not resend the verification code.";
+                            if (body != null && body.has("message")) {
+                                message = body.get("message").getAsString();
+                            }
+                            showMessage("Resend Failed", message);
+                        }
                     }
 
                     @Override
-                    public void onFinish() {
-
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        requestInProgress = false;
                         resendText.setEnabled(true);
-
-                        resendText.setText(
-                                "RESEND CODE"
-                        );
+                        showMessage("Connection Error",
+                                "Could not contact the server.\n\n" + t.getMessage());
                     }
-                };
+                });
+    }
 
+    private void showVerificationAnimation() {
+        playSuccessSound();
+        vibrateSuccess();
+
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        VerificationAnimationView animationView =
+                new VerificationAnimationView(this);
+
+        dialog.setContentView(animationView);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        configureAnimationDialog(dialog);
+
+        dialog.setOnShowListener(d -> {
+            animationView.startAnimation();
+
+            handler.postDelayed(() -> {
+                if (isFinishing() || isDestroyed()) {
+                    if (dialog.isShowing()) dialog.dismiss();
+                    return;
+                }
+
+                if (dialog.isShowing()) dialog.dismiss();
+                saveStudentAccount();
+            }, 1850);
+        });
+
+        dialog.show();
+        configureAnimationDialog(dialog);
+    }
+
+    private void configureAnimationDialog(Dialog dialog) {
+        Window window = dialog.getWindow();
+
+        if (window != null) {
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+
+            WindowManager.LayoutParams params = window.getAttributes();
+            params.width = dpToPx(280);
+            params.height = dpToPx(280);
+            params.gravity = Gravity.CENTER;
+            params.dimAmount = 0.35f;
+
+            window.setAttributes(params);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        }
+    }
+
+    private void showErrorAnimation() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        VerificationAnimationView animationView =
+                new VerificationAnimationView(this);
+
+        dialog.setContentView(animationView);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        configureAnimationDialog(dialog);
+
+        dialog.setOnShowListener(d -> {
+            animationView.startErrorAnimation();
+            handler.postDelayed(() -> {
+                if (dialog.isShowing()) dialog.dismiss();
+            }, 1500);
+        });
+
+        dialog.show();
+        configureAnimationDialog(dialog);
+    }
+
+    private void saveStudentAccount() {
+        if (!emailVerified || isFinishing() || isDestroyed()) return;
+
+        String email = getIntent().getStringExtra("contact");
+        String password = getIntent().getStringExtra("password");
+        String studentNumber = getIntent().getStringExtra("student_number");
+        String firstName = getIntent().getStringExtra("first_name");
+        String lastName = getIntent().getStringExtra("last_name");
+        String programme = getIntent().getStringExtra("programme");
+
+        if (email == null || password == null || studentNumber == null
+                || firstName == null || lastName == null || programme == null) {
+            showMessage("Account Verified",
+                    "Your email is verified, but some details are missing from this screen. You can now try logging in with your email and password.");
+            return;
+        }
+
+        databaseExecutor.execute(() -> {
+            try {
+                AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
+
+                boolean studentExists =
+                        db.studentDao().countStudentById(studentNumber) > 0;
+                boolean emailExists =
+                        db.studentDao().countByEmail(email) > 0;
+
+                if (!studentExists && !emailExists) {
+                    Student student = new Student();
+                    student.studentId = studentNumber;
+                    student.firstName = firstName;
+                    student.lastName = lastName;
+                    student.programme = programme;
+                    student.groupName = "";
+                    student.email = email;
+                    student.phone = "";
+                    student.passwordSalt = PasswordUtils.generateSalt();
+                    student.passwordHash =
+                            PasswordUtils.hashPassword(password, student.passwordSalt);
+
+                    db.studentDao().insertStudent(student);
+                }
+
+                handler.post(() -> {
+                    if (isFinishing() || isDestroyed()) return;
+
+                    new AlertDialog.Builder(this)
+                            .setTitle("Email Verified")
+                            .setMessage(
+                                    "Your email has been verified successfully. " +
+                                            "Your account is registered on the server. You can now log in."
+                            )
+                            .setCancelable(false)
+                            .setPositiveButton("CONTINUE", (d, which) -> {
+                                Intent intent = new Intent(this, StudentActivity.class);
+                                intent.addFlags(
+                                        Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                                | Intent.FLAG_ACTIVITY_SINGLE_TOP
+                                );
+                                startActivity(intent);
+                                finish();
+                            })
+                            .show();
+                });
+
+            } catch (Exception e) {
+                handler.post(() -> {
+                    if (isFinishing() || isDestroyed()) return;
+                    showMessage("Email Verified",
+                            "Your server account is verified, but the local copy could not be saved. You can still try logging in with your email and password.");
+                });
+            }
+        });
+    }
+
+    private void clearCodeBoxes() {
+        code1.setText("");
+        code2.setText("");
+        code3.setText("");
+        code4.setText("");
+        code5.setText("");
+        code6.setText("");
+        code1.requestFocus();
+    }
+
+    private void setupCodeBoxes() {
+        EditText[] boxes = {code1, code2, code3, code4, code5, code6};
+
+        for (int i = 0; i < boxes.length; i++) {
+            final int index = i;
+
+            boxes[i].addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (s.length() == 1 && index < boxes.length - 1) {
+                        boxes[index + 1].requestFocus();
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+            });
+
+            if (i > 0) {
+                boxes[i].setOnKeyListener((v, keyCode, event) -> {
+                    if (keyCode == KeyEvent.KEYCODE_DEL
+                            && event.getAction() == KeyEvent.ACTION_DOWN
+                            && boxes[index].getText().length() == 0) {
+                        boxes[index - 1].requestFocus();
+                        return true;
+                    }
+                    return false;
+                });
+            }
+        }
+
+        code1.requestFocus();
+    }
+
+    private void startCountdown() {
+        if (countDownTimer != null) countDownTimer.cancel();
+
+        resendText.setEnabled(false);
+        countDownTimer = new CountDownTimer(30000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long seconds = millisUntilFinished / 1000;
+                resendText.setText("Resend code in 00:" + String.format("%02d", seconds));
+            }
+
+            @Override
+            public void onFinish() {
+                resendText.setEnabled(true);
+                resendText.setText("RESEND CODE");
+            }
+        };
         countDownTimer.start();
     }
 
-    // =============================================================
-    // MASK EMAIL / PHONE
-    // =============================================================
-
-    private String maskContact(
-            String contact
-    ) {
-
-        if (contact.contains("@")) {
-
-            String[] parts =
-                    contact.split("@");
-
+    private String maskContact(String email) {
+        if (email.contains("@")) {
+            String[] parts = email.split("@", 2);
             String name = parts[0];
             String domain = parts[1];
 
-            if (name.length() <= 2) {
-
-                return "***@" + domain;
-            }
-
-            return name.charAt(0)
-                    + "***"
-                    + name.charAt(
-                    name.length() - 1
-            )
-                    + "@"
-                    + domain;
+            if (name.length() <= 2) return "***@" + domain;
+            return name.charAt(0) + "***"
+                    + name.charAt(name.length() - 1) + "@" + domain;
         }
-
-        if (contact.length() >= 4) {
-
-            return "**** **** "
-                    + contact.substring(
-                    contact.length() - 4
-            );
-        }
-
         return "****";
     }
 
-    // =============================================================
-    // CLEAN UP
-    // =============================================================
+    private void showMessage(String title, String message) {
+        if (isFinishing() || isDestroyed()) return;
+
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("OK", null)
+                .show();
+    }
+
+    private void playSuccessSound() {
+        MediaPlayer player = MediaPlayer.create(this, R.raw.success);
+        if (player != null) {
+            player.setOnCompletionListener(MediaPlayer::release);
+            player.start();
+        }
+    }
+
+    private void playErrorSound() {
+        ToneGenerator tone = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 80);
+        tone.startTone(ToneGenerator.TONE_PROP_NACK, 180);
+        handler.postDelayed(tone::release, 250);
+    }
+
+    private void vibrateSuccess() {
+        vibrate(new long[]{0, 70});
+    }
+
+    private void vibrateError() {
+        vibrate(new long[]{0, 80, 60, 120});
+    }
+
+    private void vibrate(long[] pattern) {
+        try {
+            Vibrator vibrator;
+
+            if (Build.VERSION.SDK_INT >= 31) {
+                VibratorManager manager = (VibratorManager)
+                        getSystemService(Context.VIBRATOR_MANAGER_SERVICE);
+                vibrator = manager == null ? null : manager.getDefaultVibrator();
+            } else {
+                vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            }
+
+            if (vibrator == null || !vibrator.hasVibrator()) return;
+
+            if (Build.VERSION.SDK_INT >= 26) {
+                if (pattern.length == 2) {
+                    vibrator.vibrate(VibrationEffect.createOneShot(
+                            pattern[1], VibrationEffect.DEFAULT_AMPLITUDE));
+                } else {
+                    vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1));
+                }
+            } else {
+                vibrator.vibrate(pattern, -1);
+            }
+        } catch (Exception ignored) {
+            // Verification can continue if vibration is unavailable.
+        }
+    }
+
+    private int dpToPx(int dp) {
+        return Math.round(dp * getResources().getDisplayMetrics().density);
+    }
 
     @Override
     protected void onDestroy() {
-
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
-
+        if (countDownTimer != null) countDownTimer.cancel();
+        handler.removeCallbacksAndMessages(null);
+        databaseExecutor.shutdown();
         super.onDestroy();
     }
 }

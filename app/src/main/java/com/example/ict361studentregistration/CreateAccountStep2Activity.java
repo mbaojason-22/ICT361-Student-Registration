@@ -1,13 +1,14 @@
+
 package com.example.ict361studentregistration;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -17,671 +18,353 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.JsonObject;
+
 import java.security.SecureRandom;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CreateAccountStep2Activity extends AppCompatActivity {
 
-    private EditText contactInput;
-    private EditText createPasswordInput;
-    private EditText confirmPasswordInput;
-
-    private Button createAccountButton;
-    private Button suggestPasswordButton;
-
-    private ImageButton backButton;
-    private ImageButton helpButton;
-    private ImageButton createPasswordEyeButton;
-    private ImageButton confirmPasswordEyeButton;
-
-    private TextView backToStep1;
-
+    private EditText contactInput, createPasswordInput, confirmPasswordInput;
+    private Button createAccountButton, suggestPasswordButton;
+    private ImageButton backButton, helpButton;
+    private ImageButton createPasswordEyeButton, confirmPasswordEyeButton;
     private TextView passwordStrengthText;
     private ProgressBar passwordStrengthBar;
-
-    private TextView passwordRequirementLength;
-    private TextView passwordRequirementUppercase;
-    private TextView passwordRequirementLowercase;
-    private TextView passwordRequirementNumber;
-    private TextView passwordRequirementSpecial;
+    private TextView passwordRequirementLength, passwordRequirementUppercase;
+    private TextView passwordRequirementLowercase, passwordRequirementNumber;
+    private TextView passwordRequirementSpecial, backToStep1;
 
     private boolean createPasswordVisible = false;
     private boolean confirmPasswordVisible = false;
+    private boolean requestInProgress = false;
 
     private final SecureRandom secureRandom = new SecureRandom();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Load Step 2
         setContentView(R.layout.activity_create_account_step2);
 
-        // Connect input fields
         contactInput = findViewById(R.id.contact_input);
         createPasswordInput = findViewById(R.id.create_password_input);
         confirmPasswordInput = findViewById(R.id.confirm_password_input);
 
-        // Connect buttons
-        createAccountButton = findViewById(
-                R.id.create_account_final_button
-        );
+        createAccountButton = findViewById(R.id.create_account_final_button);
+        suggestPasswordButton = findViewById(R.id.suggest_password_button);
 
-        suggestPasswordButton = findViewById(
-                R.id.suggest_password_button
-        );
+        backButton = findViewById(R.id.create_account_step2_back_button);
+        helpButton = findViewById(R.id.create_account_step2_help_button);
+        createPasswordEyeButton = findViewById(R.id.create_password_eye_button);
+        confirmPasswordEyeButton = findViewById(R.id.confirm_password_eye_button);
+        backToStep1 = findViewById(R.id.back_to_step1);
 
-        // Connect navigation
-        backButton = findViewById(
-                R.id.create_account_step2_back_button
-        );
+        passwordStrengthText = findViewById(R.id.password_strength_text);
+        passwordStrengthBar = findViewById(R.id.password_strength_bar);
 
-        helpButton = findViewById(
-                R.id.create_account_step2_help_button
-        );
+        passwordRequirementLength = findViewById(R.id.password_requirement_length);
+        passwordRequirementUppercase = findViewById(R.id.password_requirement_uppercase);
+        passwordRequirementLowercase = findViewById(R.id.password_requirement_lowercase);
+        passwordRequirementNumber = findViewById(R.id.password_requirement_number);
+        passwordRequirementSpecial = findViewById(R.id.password_requirement_special);
 
-        createPasswordEyeButton = findViewById(
-                R.id.create_password_eye_button
-        );
+        passwordStrengthBar.setMax(5);
 
-        confirmPasswordEyeButton = findViewById(
-                R.id.confirm_password_eye_button
-        );
+        createPasswordInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-        backToStep1 = findViewById(
-                R.id.back_to_step1
-        );
-
-        // Connect password strength section
-        passwordStrengthText = findViewById(
-                R.id.password_strength_text
-        );
-
-        passwordStrengthBar = findViewById(
-                R.id.password_strength_bar
-        );
-
-        passwordRequirementLength = findViewById(
-                R.id.password_requirement_length
-        );
-
-        passwordRequirementUppercase = findViewById(
-                R.id.password_requirement_uppercase
-        );
-
-        passwordRequirementLowercase = findViewById(
-                R.id.password_requirement_lowercase
-        );
-
-        passwordRequirementNumber = findViewById(
-                R.id.password_requirement_number
-        );
-
-        passwordRequirementSpecial = findViewById(
-                R.id.password_requirement_special
-        );
-
-        // Watch the password while the student types
-        createPasswordInput.addTextChangedListener(
-                new TextWatcher() {
-
-                    @Override
-                    public void beforeTextChanged(
-                            CharSequence s,
-                            int start,
-                            int count,
-                            int after
-                    ) {
-                    }
-
-                    @Override
-                    public void onTextChanged(
-                            CharSequence s,
-                            int start,
-                            int before,
-                            int count
-                    ) {
-                        updatePasswordStrength(
-                                s.toString()
-                        );
-                    }
-
-                    @Override
-                    public void afterTextChanged(
-                            Editable s
-                    ) {
-                    }
-                }
-        );
-
-        // CREATE ACCOUNT
-        createAccountButton.setOnClickListener(v -> {
-
-            String contact = contactInput
-                    .getText()
-                    .toString()
-                    .trim();
-
-            String password = createPasswordInput
-                    .getText()
-                    .toString();
-
-            String confirmPassword = confirmPasswordInput
-                    .getText()
-                    .toString();
-
-            // Validate contact
-            if (contact.isEmpty()) {
-
-                contactInput.setError(
-                        "Enter your email or phone number"
-                );
-
-                contactInput.requestFocus();
-
-                return;
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                updatePasswordStrength(s.toString());
             }
 
-            boolean isEmail = Patterns.EMAIL_ADDRESS
-                    .matcher(contact)
-                    .matches();
-
-            boolean isPhone = contact.matches(
-                    "^\\+?[0-9]{7,15}$"
-            );
-
-            if (!isEmail && !isPhone) {
-
-                contactInput.setError(
-                        "Enter a valid email or phone number"
-                );
-
-                contactInput.requestFocus();
-
-                return;
-            }
-
-            // Validate password
-            if (password.isEmpty()) {
-
-                createPasswordInput.setError(
-                        "Create a password"
-                );
-
-                createPasswordInput.requestFocus();
-
-                return;
-            }
-
-            if (password.length() < 8) {
-
-                createPasswordInput.setError(
-                        "Password must be at least 8 characters"
-                );
-
-                createPasswordInput.requestFocus();
-
-                return;
-            }
-
-            // Require a strong password
-            if (calculatePasswordScore(password) < 4) {
-
-                createPasswordInput.setError(
-                        "Please create a stronger password"
-                );
-
-                createPasswordInput.requestFocus();
-
-                return;
-            }
-
-            // Validate confirmation
-            if (confirmPassword.isEmpty()) {
-
-                confirmPasswordInput.setError(
-                        "Re-enter your password"
-                );
-
-                confirmPasswordInput.requestFocus();
-
-                return;
-            }
-
-            if (!password.equals(confirmPassword)) {
-
-                confirmPasswordInput.setError(
-                        "Passwords do not match"
-                );
-
-                confirmPasswordInput.requestFocus();
-
-                return;
-            }
-
-            /*
-             * STEP 2 COMPLETE
-             *
-             * Send the contact information to the
-             * verification screen.
-             */
-            Intent intent = new Intent(
-                    CreateAccountStep2Activity.this,
-                    VerificationActivity.class
-            );
-
-            // Pass the contact to VerificationActivity
-            intent.putExtra(
-                    "contact",
-                    contact
-            );
-
-            // Also pass Step 1 details forward
-            String firstName = getIntent().getStringExtra(
-                    "first_name"
-            );
-
-            String lastName = getIntent().getStringExtra(
-                    "last_name"
-            );
-
-            String studentNumber = getIntent().getStringExtra(
-                    "student_number"
-            );
-
-            String programme = getIntent().getStringExtra(
-                    "programme"
-            );
-
-            intent.putExtra(
-                    "first_name",
-                    firstName
-            );
-
-            intent.putExtra(
-                    "last_name",
-                    lastName
-            );
-
-            intent.putExtra(
-                    "student_number",
-                    studentNumber
-            );
-
-            intent.putExtra(
-                    "programme",
-                    programme
-            );
-
-            startActivity(intent);
-
-            // Remove Step 2 from the back stack
-            finish();
+            @Override
+            public void afterTextChanged(Editable s) {}
         });
 
-        // SUGGEST STRONG PASSWORD
         suggestPasswordButton.setOnClickListener(v -> {
+            String password = generateStrongPassword();
+            createPasswordInput.setText(password);
+            confirmPasswordInput.setText(password);
+            createPasswordInput.setSelection(password.length());
 
-            String suggestedPassword =
-                    generateStrongPassword();
-
-            createPasswordInput.setText(
-                    suggestedPassword
-            );
-
-            confirmPasswordInput.setText(
-                    suggestedPassword
-            );
-
-            createPasswordInput.setSelection(
-                    createPasswordInput.getText().length()
-            );
-
-            new AlertDialog.Builder(
-                    CreateAccountStep2Activity.this
-            )
-                    .setTitle("Strong Password Suggested")
-                    .setMessage(
-                            "A strong password has been generated for you.\n\n" +
-                                    "Tap the eye button if you want to see it."
-                    )
-                    .setPositiveButton(
-                            "GOT IT",
-                            null
-                    )
+            new AlertDialog.Builder(this)
+                    .setTitle("Strong Password Generated")
+                    .setMessage("A strong password has been filled into both fields. Keep it somewhere safe.")
+                    .setPositiveButton("OK", null)
                     .show();
         });
 
-        // SHOW / HIDE CREATE PASSWORD
         createPasswordEyeButton.setOnClickListener(v -> {
-
-            if (createPasswordVisible) {
-
-                createPasswordInput.setTransformationMethod(
-                        PasswordTransformationMethod.getInstance()
-                );
-
-                createPasswordVisible = false;
-
-            } else {
-
-                createPasswordInput.setTransformationMethod(
-                        HideReturnsTransformationMethod.getInstance()
-                );
-
-                createPasswordVisible = true;
-            }
-
-            createPasswordInput.setSelection(
-                    createPasswordInput.getText().length()
+            createPasswordVisible = !createPasswordVisible;
+            createPasswordInput.setTransformationMethod(
+                    createPasswordVisible
+                            ? HideReturnsTransformationMethod.getInstance()
+                            : PasswordTransformationMethod.getInstance()
             );
+            createPasswordInput.setSelection(createPasswordInput.length());
         });
 
-        // SHOW / HIDE CONFIRM PASSWORD
         confirmPasswordEyeButton.setOnClickListener(v -> {
-
-            if (confirmPasswordVisible) {
-
-                confirmPasswordInput.setTransformationMethod(
-                        PasswordTransformationMethod.getInstance()
-                );
-
-                confirmPasswordVisible = false;
-
-            } else {
-
-                confirmPasswordInput.setTransformationMethod(
-                        HideReturnsTransformationMethod.getInstance()
-                );
-
-                confirmPasswordVisible = true;
-            }
-
-            confirmPasswordInput.setSelection(
-                    confirmPasswordInput.getText().length()
+            confirmPasswordVisible = !confirmPasswordVisible;
+            confirmPasswordInput.setTransformationMethod(
+                    confirmPasswordVisible
+                            ? HideReturnsTransformationMethod.getInstance()
+                            : PasswordTransformationMethod.getInstance()
             );
+            confirmPasswordInput.setSelection(confirmPasswordInput.length());
         });
 
-        // BACK BUTTON
-        backButton.setOnClickListener(v -> {
-            finish();
-        });
+        createAccountButton.setOnClickListener(v -> continueRegistration());
+        backButton.setOnClickListener(v -> finish());
+        backToStep1.setOnClickListener(v -> finish());
 
-        // BACK TO STEP 1
-        backToStep1.setOnClickListener(v -> {
-            finish();
-        });
-
-        // HELP
-        helpButton.setOnClickListener(v -> {
-
-            new AlertDialog.Builder(
-                    CreateAccountStep2Activity.this
-            )
-                    .setTitle("Create Account — Step 2")
-                    .setMessage(
-                            "Complete your account security details.\n\n" +
-
-                                    "EMAIL OR PHONE NUMBER\n" +
-                                    "Enter an email address or phone number " +
-                                    "where you can receive your verification code.\n\n" +
-
-                                    "PASSWORD\n" +
-                                    "Create a strong password. " +
-                                    "The strength meter will guide you while you type.\n\n" +
-
-                                    "SUGGEST A STRONG PASSWORD\n" +
-                                    "Campus Companion can generate a strong password " +
-                                    "for you automatically.\n\n" +
-
-                                    "CONFIRM PASSWORD\n" +
-                                    "Enter the same password again.\n\n" +
-
-                                    "When everything is correct, press CREATE ACCOUNT."
-                    )
-                    .setPositiveButton(
-                            "GOT IT",
-                            null
-                    )
-                    .show();
-        });
+        helpButton.setOnClickListener(v ->
+                new AlertDialog.Builder(this)
+                        .setTitle("Create Account — Step 2")
+                        .setMessage(
+                                "Enter an email address you can access. " +
+                                        "Create a password with at least 8 characters, " +
+                                        "including uppercase and lowercase letters, a number, " +
+                                        "and a special character. Confirm the password, then " +
+                                        "press CREATE ACCOUNT. A verification code will be emailed to you."
+                        )
+                        .setPositiveButton("GOT IT", null)
+                        .show()
+        );
     }
 
-    // Calculate password strength
+    private void continueRegistration() {
+        String email = contactInput.getText().toString().trim();
+        String password = createPasswordInput.getText().toString();
+        String confirmPassword = confirmPasswordInput.getText().toString();
+
+        String firstName = getIntent().getStringExtra("first_name");
+        String lastName = getIntent().getStringExtra("last_name");
+        String studentNumber = getIntent().getStringExtra("student_number");
+        String programme = getIntent().getStringExtra("programme");
+
+        if (TextUtils.isEmpty(email)
+                || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            contactInput.setError("Enter a valid email address");
+            contactInput.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(firstName)
+                || TextUtils.isEmpty(lastName)
+                || TextUtils.isEmpty(studentNumber)
+                || TextUtils.isEmpty(programme)) {
+            showMessage("Registration Details Missing",
+                    "Go back and complete Step 1.");
+            return;
+        }
+
+        if (!studentNumber.matches("\\d{9}")) {
+            showMessage("Invalid Student Number",
+                    "Your student number must contain 9 digits.");
+            return;
+        }
+
+        if (password.length() < 8 || calculatePasswordScore(password) < 5) {
+            createPasswordInput.setError(
+                    "Use 8+ characters with uppercase, lowercase, number and special character"
+            );
+            createPasswordInput.requestFocus();
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            confirmPasswordInput.setError("Passwords do not match");
+            confirmPasswordInput.requestFocus();
+            return;
+        }
+
+        int programmeId = getProgrammeId(programme);
+        if (programmeId == -1) {
+            showMessage("Programme Not Supported",
+                    "This programme is not available on the server yet.");
+            return;
+        }
+
+        registerWithBackend(email, password, firstName, lastName,
+                studentNumber, programme, programmeId);
+    }
+
+    private int getProgrammeId(String programme) {
+        if ("Computer Science".equals(programme)) return 1;
+        if ("Information Technology".equals(programme)) return 2;
+        if ("Data Science".equals(programme)) return 3;
+        return -1;
+    }
+
+    private void registerWithBackend(
+            String email,
+            String password,
+            String firstName,
+            String lastName,
+            String studentNumber,
+            String programme,
+            int programmeId
+    ) {
+        if (requestInProgress) return;
+
+        requestInProgress = true;
+        createAccountButton.setEnabled(false);
+
+        JsonObject request = new JsonObject();
+        request.addProperty("student_number", studentNumber);
+        request.addProperty("first_name", firstName);
+        request.addProperty("last_name", lastName);
+        request.addProperty("email", email);
+        request.addProperty("password", password);
+        request.addProperty("programme_id", programmeId);
+
+        AuthApiClient.getService(this).register(request)
+                .enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(
+                            Call<JsonObject> call,
+                            Response<JsonObject> response
+                    ) {
+                        requestInProgress = false;
+                        createAccountButton.setEnabled(true);
+
+                        JsonObject body = response.body();
+                        boolean success = response.isSuccessful()
+                                && body != null
+                                && body.has("success")
+                                && body.get("success").getAsBoolean();
+
+                        if (success) {
+                            Intent intent = new Intent(
+                                    CreateAccountStep2Activity.this,
+                                    VerificationActivity.class
+                            );
+                            intent.putExtra("contact", email);
+                            intent.putExtra("password", password);
+                            intent.putExtra("first_name", firstName);
+                            intent.putExtra("last_name", lastName);
+                            intent.putExtra("student_number", studentNumber);
+                            intent.putExtra("programme", programme);
+                            startActivity(intent);
+                        } else {
+                            String message = "Registration failed.";
+
+                            if (body != null && body.has("message")) {
+                                message = body.get("message").getAsString();
+                            } else if (response.code() == 409) {
+                                message = "This email or student number is already registered.";
+                            } else if (response.code() == 500) {
+                                message = "The server could not complete registration. Check the server email configuration and try again.";
+                            }
+
+                            showMessage("Registration Error", message);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        requestInProgress = false;
+                        createAccountButton.setEnabled(true);
+                        showMessage("Connection Error",
+                                "Could not reach the registration server. " +
+                                        "Check that the server is running and your device " +
+                                        "can reach it on the same Wi-Fi network.\n\n" +
+                                        t.getMessage());
+                    }
+                });
+    }
+
     private int calculatePasswordScore(String password) {
-
         int score = 0;
-
-        boolean hasLength = password.length() >= 8;
-        boolean hasUppercase = password.matches(".*[A-Z].*");
-        boolean hasLowercase = password.matches(".*[a-z].*");
-        boolean hasNumber = password.matches(".*\\d.*");
-        boolean hasSpecial = password.matches(
-                ".*[^a-zA-Z0-9].*"
-        );
-
-        if (hasLength) score++;
-        if (hasUppercase) score++;
-        if (hasLowercase) score++;
-        if (hasNumber) score++;
-        if (hasSpecial) score++;
-
+        if (password.length() >= 8) score++;
+        if (password.matches(".*[A-Z].*")) score++;
+        if (password.matches(".*[a-z].*")) score++;
+        if (password.matches(".*\\d.*")) score++;
+        if (password.matches(".*[^a-zA-Z0-9].*")) score++;
         return score;
     }
 
-    // Update the strength meter and checklist
     private void updatePasswordStrength(String password) {
+        boolean length = password.length() >= 8;
+        boolean upper = password.matches(".*[A-Z].*");
+        boolean lower = password.matches(".*[a-z].*");
+        boolean number = password.matches(".*\\d.*");
+        boolean special = password.matches(".*[^a-zA-Z0-9].*");
 
-        boolean hasLength = password.length() >= 8;
-        boolean hasUppercase = password.matches(".*[A-Z].*");
-        boolean hasLowercase = password.matches(".*[a-z].*");
-        boolean hasNumber = password.matches(".*\\d.*");
-        boolean hasSpecial = password.matches(
-                ".*[^a-zA-Z0-9].*"
-        );
+        passwordStrengthBar.setProgress(calculatePasswordScore(password));
 
-        int score = 0;
+        updateRequirement(passwordRequirementLength, length, "At least 8 characters");
+        updateRequirement(passwordRequirementUppercase, upper, "Uppercase letter");
+        updateRequirement(passwordRequirementLowercase, lower, "Lowercase letter");
+        updateRequirement(passwordRequirementNumber, number, "Number");
+        updateRequirement(passwordRequirementSpecial, special, "Special character");
 
-        if (hasLength) score++;
-        if (hasUppercase) score++;
-        if (hasLowercase) score++;
-        if (hasNumber) score++;
-        if (hasSpecial) score++;
-
-        passwordStrengthBar.setProgress(score);
-
-        // Update requirements
-        updateRequirement(
-                passwordRequirementLength,
-                hasLength,
-                "At least 8 characters"
-        );
-
-        updateRequirement(
-                passwordRequirementUppercase,
-                hasUppercase,
-                "Uppercase letter"
-        );
-
-        updateRequirement(
-                passwordRequirementLowercase,
-                hasLowercase,
-                "Lowercase letter"
-        );
-
-        updateRequirement(
-                passwordRequirementNumber,
-                hasNumber,
-                "Number"
-        );
-
-        updateRequirement(
-                passwordRequirementSpecial,
-                hasSpecial,
-                "Special character"
-        );
-
-        // Update strength label
+        int score = calculatePasswordScore(password);
         if (password.isEmpty()) {
-
             passwordStrengthText.setText("Not set");
             passwordStrengthText.setTextColor(Color.GRAY);
-
         } else if (score <= 1) {
-
             passwordStrengthText.setText("Very weak");
             passwordStrengthText.setTextColor(Color.RED);
-
         } else if (score == 2) {
-
             passwordStrengthText.setText("Weak");
-            passwordStrengthText.setTextColor(
-                    Color.rgb(220, 120, 0)
-            );
-
+            passwordStrengthText.setTextColor(Color.rgb(220, 120, 0));
         } else if (score == 3) {
-
             passwordStrengthText.setText("Medium");
-            passwordStrengthText.setTextColor(
-                    Color.rgb(220, 170, 0)
-            );
-
+            passwordStrengthText.setTextColor(Color.rgb(220, 170, 0));
         } else if (score == 4) {
-
             passwordStrengthText.setText("Strong");
-            passwordStrengthText.setTextColor(
-                    Color.rgb(30, 150, 80)
-            );
-
+            passwordStrengthText.setTextColor(Color.rgb(30, 150, 80));
         } else {
-
             passwordStrengthText.setText("Very strong");
-            passwordStrengthText.setTextColor(
-                    Color.rgb(20, 130, 70)
-            );
+            passwordStrengthText.setTextColor(Color.rgb(20, 130, 70));
         }
     }
 
-    // Update one password requirement
-    private void updateRequirement(
-            TextView textView,
-            boolean satisfied,
-            String requirement
-    ) {
-
-        if (satisfied) {
-
-            textView.setText(
-                    "✓ " + requirement
-            );
-
-            textView.setTextColor(
-                    Color.rgb(30, 150, 80)
-            );
-
-        } else {
-
-            textView.setText(
-                    "○ " + requirement
-            );
-
-            textView.setTextColor(
-                    Color.GRAY
-            );
-        }
+    private void updateRequirement(TextView view, boolean satisfied, String text) {
+        view.setText((satisfied ? "✓ " : "○ ") + text);
+        view.setTextColor(satisfied ? Color.rgb(30, 150, 80) : Color.GRAY);
     }
 
-    // Generate a random strong password
     private String generateStrongPassword() {
+        String upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lower = "abcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+        String special = "!@#$%^&*";
+        String all = upper + lower + numbers + special;
 
-        String uppercase =
-                "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        StringBuilder result = new StringBuilder();
+        result.append(upper.charAt(secureRandom.nextInt(upper.length())));
+        result.append(lower.charAt(secureRandom.nextInt(lower.length())));
+        result.append(numbers.charAt(secureRandom.nextInt(numbers.length())));
+        result.append(special.charAt(secureRandom.nextInt(special.length())));
 
-        String lowercase =
-                "abcdefghijklmnopqrstuvwxyz";
-
-        String numbers =
-                "0123456789";
-
-        String special =
-                "!@#$%^&*";
-
-        String allCharacters =
-                uppercase +
-                        lowercase +
-                        numbers +
-                        special;
-
-        StringBuilder password =
-                new StringBuilder();
-
-        // Guarantee at least one character of every type
-        password.append(
-                uppercase.charAt(
-                        secureRandom.nextInt(
-                                uppercase.length()
-                        )
-                )
-        );
-
-        password.append(
-                lowercase.charAt(
-                        secureRandom.nextInt(
-                                lowercase.length()
-                        )
-                )
-        );
-
-        password.append(
-                numbers.charAt(
-                        secureRandom.nextInt(
-                                numbers.length()
-                        )
-                )
-        );
-
-        password.append(
-                special.charAt(
-                        secureRandom.nextInt(
-                                special.length()
-                        )
-                )
-        );
-
-        // Add extra characters
         for (int i = 0; i < 10; i++) {
-
-            password.append(
-                    allCharacters.charAt(
-                            secureRandom.nextInt(
-                                    allCharacters.length()
-                            )
-                    )
-            );
+            result.append(all.charAt(secureRandom.nextInt(all.length())));
         }
 
-        // Shuffle the password
-        char[] characters =
-                password.toString().toCharArray();
-
-        for (
-                int i = characters.length - 1;
-                i > 0;
-                i--
-        ) {
-
-            int randomIndex =
-                    secureRandom.nextInt(i + 1);
-
-            char temporary =
-                    characters[i];
-
-            characters[i] =
-                    characters[randomIndex];
-
-            characters[randomIndex] =
-                    temporary;
+        char[] chars = result.toString().toCharArray();
+        for (int i = chars.length - 1; i > 0; i--) {
+            int j = secureRandom.nextInt(i + 1);
+            char temp = chars[i];
+            chars[i] = chars[j];
+            chars[j] = temp;
         }
+        return new String(chars);
+    }
 
-        return new String(characters);
+    private void showMessage(String title, String message) {
+        if (isFinishing() || isDestroyed()) return;
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("OK", null)
+                .show();
     }
 }

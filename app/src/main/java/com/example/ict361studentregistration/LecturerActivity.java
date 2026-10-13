@@ -13,202 +13,226 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.ict361studentregistration.data.room.AppDatabase;
+import com.example.ict361studentregistration.data.room.Lecturer;
+import com.example.ict361studentregistration.data.room.LecturerDao;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class LecturerActivity extends AppCompatActivity {
 
     private Button signInButton;
     private Button createAccountButton;
-
     private TextView forgotPassword;
-
     private ImageButton backButton;
     private ImageButton helpButton;
     private ImageButton passwordEyeButton;
-
     private EditText lecturerIdInput;
     private EditText passwordInput;
 
     private boolean passwordVisible = false;
 
+    private final ExecutorService executor =
+            Executors.newSingleThreadExecutor();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Load the Lecturer Portal screen
         setContentView(R.layout.activity_lecturer);
 
-        // Connect Java to the screen elements
         signInButton = findViewById(R.id.lecturer_sign_in_button);
-        createAccountButton = findViewById(R.id.lecturer_create_account_button);
-
+        createAccountButton =
+                findViewById(R.id.lecturer_create_account_button);
         forgotPassword = findViewById(R.id.lecturer_forgot_password);
-
         backButton = findViewById(R.id.lecturer_back_button);
         helpButton = findViewById(R.id.lecturer_help_button);
-        passwordEyeButton = findViewById(R.id.lecturer_password_eye_button);
-
+        passwordEyeButton =
+                findViewById(R.id.lecturer_password_eye_button);
         lecturerIdInput = findViewById(R.id.lecturer_id_input);
         passwordInput = findViewById(R.id.lecturer_password_input);
 
+        signInButton.setOnClickListener(v -> signIn());
 
-        // SIGN IN BUTTON
-        signInButton.setOnClickListener(v -> {
+        createAccountButton.setOnClickListener(v ->
+                startActivity(new Intent(
+                        LecturerActivity.this,
+                        CreateLecturerActivity.class
+                ))
+        );
 
-            String identifier = lecturerIdInput
-                    .getText()
-                    .toString()
-                    .trim();
+        forgotPassword.setOnClickListener(v ->
+                startActivity(new Intent(
+                        LecturerActivity.this,
+                        ForgotPasswordActivity.class
+                ))
+        );
 
-            String password = passwordInput
-                    .getText()
-                    .toString();
-
-            // Check whether lecturer ID / email field is empty
-            if (identifier.isEmpty()) {
-
-                lecturerIdInput.setError(
-                        "Enter your lecturer ID or email"
-                );
-
-                lecturerIdInput.requestFocus();
-
-                return;
-            }
-
-            // Check whether input is an email
-            boolean isEmail = Patterns.EMAIL_ADDRESS
-                    .matcher(identifier)
-                    .matches();
-
-            // Check whether input is a numeric lecturer ID (e.g. 5-10 digits)
-            boolean isLecturerId = identifier.matches("\\d{5,10}");
-
-            if (!isEmail && !isLecturerId) {
-
-                lecturerIdInput.setError(
-                        "Enter a valid lecturer ID or email"
-                );
-
-                lecturerIdInput.requestFocus();
-
-                return;
-            }
-
-            // Check password
-            if (password.isEmpty()) {
-
-                passwordInput.setError(
-                        "Enter your password"
-                );
-
-                passwordInput.requestFocus();
-
-                return;
-            }
-
-            // Valid login details supplied
-            new AlertDialog.Builder(LecturerActivity.this)
-                    .setTitle("Lecturer Sign In Successful")
-                    .setMessage("Welcome back to Campus Companion!")
-                    .setPositiveButton("PROCEED TO HOME", (dialog, which) -> {
-                        Intent intent = new Intent(LecturerActivity.this, HomeActivity.class);
-                        intent.putExtra("USER_NAME", identifier);
-                        startActivity(intent);
-                        finish();
-                    })
-                    .show();
-
-        });
-
-
-        // CREATE ACCOUNT BUTTON
-        createAccountButton.setOnClickListener(v -> {
-
-            Intent intent = new Intent(
-                    LecturerActivity.this,
-                    CreateLecturerActivity.class
-            );
-
-            startActivity(intent);
-
-        });
-
-
-        // FORGOT PASSWORD (Same as Student's recovery flow)
-        forgotPassword.setOnClickListener(v -> {
-
-            Intent intent = new Intent(
-                    LecturerActivity.this,
-                    ForgotPasswordActivity.class
-            );
-
-            startActivity(intent);
-
-        });
-
-
-        // PASSWORD SHOW / HIDE BUTTON
-        passwordEyeButton.setOnClickListener(v -> {
-
-            if (passwordVisible) {
-
-                // Hide the password
-                passwordInput.setTransformationMethod(
-                        PasswordTransformationMethod.getInstance()
-                );
-
-                passwordEyeButton.setImageResource(R.drawable.password_eye_red);
-                passwordEyeButton.setAlpha(1.0f);
-
-                passwordVisible = false;
-
-            } else {
-
-                // Show the password (dimmed red eye-off icon)
-                passwordInput.setTransformationMethod(
-                        HideReturnsTransformationMethod.getInstance()
-                );
-
-                passwordEyeButton.setImageResource(R.drawable.password_eye_off_red);
-                passwordEyeButton.setAlpha(0.6f);
-
-                passwordVisible = true;
-            }
-
-            // Keep the cursor at the end of the password
-            passwordInput.setSelection(
-                    passwordInput.getText().length()
-            );
-
-        });
-
-
-        // BACK BUTTON
         backButton.setOnClickListener(v -> finish());
 
+        passwordEyeButton.setOnClickListener(v -> {
+            passwordVisible = !passwordVisible;
 
-        // LECTURER PORTAL HELP
-        helpButton.setOnClickListener(v -> {
+            passwordInput.setTransformationMethod(
+                    passwordVisible
+                            ? HideReturnsTransformationMethod.getInstance()
+                            : PasswordTransformationMethod.getInstance()
+            );
 
-            new AlertDialog.Builder(LecturerActivity.this)
-                    .setTitle("Lecturer Portal Guide")
-                    .setMessage(
-                            "Welcome to the Campus Companion Lecturer Portal!\n\n" +
+            passwordEyeButton.setImageResource(
+                    passwordVisible
+                            ? R.drawable.password_eye_off_red
+                            : R.drawable.password_eye_red
+            );
 
-                                    "1. LECTURER ID OR EMAIL\n" +
-                                    "Enter your official staff ID or registered staff email address.\n\n" +
-
-                                    "2. PASSWORD\n" +
-                                    "Enter your account password. Tap the eye button to show or hide your password.\n\n" +
-
-                                    "3. SIGN IN\n" +
-                                    "Press SIGN IN to access lecturer tools, manage student registration records, and assign laboratory groups.\n\n" +
-
-                                    "4. FORGOT PASSWORD\n" +
-                                    "Select Forgot Password? to reset your password using the verification process."
-                    )
-                    .setPositiveButton("GOT IT", null)
-                    .show();
-
+            passwordEyeButton.setAlpha(passwordVisible ? 0.6f : 1.0f);
+            passwordInput.setSelection(passwordInput.length());
         });
+
+        helpButton.setOnClickListener(v ->
+                new AlertDialog.Builder(LecturerActivity.this)
+                        .setTitle("Lecturer Portal Guide")
+                        .setMessage(
+                                "1. Enter your registered lecturer ID or email.\n\n" +
+                                        "2. Enter the password you created during registration.\n\n" +
+                                        "3. If you have not registered, select Create Account.\n\n" +
+                                        "4. If you have forgotten your password, select Forgot Password."
+                        )
+                        .setPositiveButton("GOT IT", null)
+                        .show()
+        );
+    }
+
+    private void signIn() {
+        String identifier =
+                lecturerIdInput.getText().toString().trim();
+        String password =
+                passwordInput.getText().toString();
+
+        if (identifier.isEmpty()) {
+            lecturerIdInput.setError("Enter your lecturer ID or email");
+            lecturerIdInput.requestFocus();
+            return;
+        }
+
+        boolean isEmail =
+                Patterns.EMAIL_ADDRESS.matcher(identifier).matches();
+        boolean isLecturerId =
+                identifier.matches("\\d{5,10}");
+
+        if (!isEmail && !isLecturerId) {
+            lecturerIdInput.setError(
+                    "Enter a valid lecturer ID or email"
+            );
+            lecturerIdInput.requestFocus();
+            return;
+        }
+
+        if (password.isEmpty()) {
+            passwordInput.setError("Enter your password");
+            passwordInput.requestFocus();
+            return;
+        }
+
+        signInButton.setEnabled(false);
+
+        executor.execute(() -> {
+            try {
+                LecturerDao dao =
+                        AppDatabase.getDatabase(getApplicationContext())
+                                .lecturerDao();
+
+                Lecturer lecturer = isEmail
+                        ? dao.findLecturerByEmail(identifier)
+                        : dao.findLecturerById(identifier);
+
+                runOnUiThread(() -> {
+                    signInButton.setEnabled(true);
+
+                    if (isFinishing() || isDestroyed()) {
+                        return;
+                    }
+
+                    if (lecturer == null) {
+                        new AlertDialog.Builder(LecturerActivity.this)
+                                .setTitle("Account Not Found")
+                                .setMessage(
+                                        "No lecturer account was found for these details. " +
+                                                "Please create an account first."
+                                )
+                                .setPositiveButton("CREATE ACCOUNT",
+                                        (dialog, which) ->
+                                                startActivity(new Intent(
+                                                        LecturerActivity.this,
+                                                        CreateLecturerActivity.class
+                                                )))
+                                .setNegativeButton("CANCEL", null)
+                                .show();
+                        return;
+                    }
+
+                    if (!PasswordUtils.verifyPassword(
+                            password,
+                            lecturer.passwordSalt,
+                            lecturer.passwordHash
+                    )) {
+                        passwordInput.setError("Incorrect password");
+                        passwordInput.setText("");
+                        passwordInput.requestFocus();
+                        return;
+                    }
+
+                    String displayName =
+                            lecturer.firstName == null
+                                    ? identifier
+                                    : lecturer.firstName;
+
+                    new AlertDialog.Builder(LecturerActivity.this)
+                            .setTitle("Lecturer Sign In Successful")
+                            .setMessage("Welcome back, " + displayName + "!")
+                            .setPositiveButton("PROCEED TO HOME",
+                                    (dialog, which) -> {
+                                        Intent intent = new Intent(
+                                                LecturerActivity.this,
+                                                HomeActivity.class
+                                        );
+                                        intent.putExtra(
+                                                "USER_NAME", displayName
+                                        );
+                                        intent.putExtra(
+                                                "LECTURER_ID",
+                                                lecturer.lecturerId
+                                        );
+                                        startActivity(intent);
+                                        finish();
+                                    })
+                            .show();
+                });
+
+            } catch (Exception e) {
+                runOnUiThread(() -> {
+                    signInButton.setEnabled(true);
+
+                    if (isFinishing() || isDestroyed()) {
+                        return;
+                    }
+
+                    new AlertDialog.Builder(LecturerActivity.this)
+                            .setTitle("Login Error")
+                            .setMessage(
+                                    "Unable to verify your account. " +
+                                            "Please try again."
+                            )
+                            .setPositiveButton("OK", null)
+                            .show();
+                });
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        executor.shutdown();
     }
 }

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Internet access for the future Node.js API -->
+    <!-- Internet access and vibration -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="false"
+        android:usesCleartextTraffic="true"
         android:label="Campus Companion"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
@@ -16,14 +17,17 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Student Portal -->
+        <!-- Student portal -->
         <activity
             android:name=".StudentActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".StudentHomeActivity"
             android:exported="false" />
 
         <!-- Student registration -->
@@ -31,46 +35,69 @@
             android:name=".CreateAccountActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".CreateAccountStep2Activity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
-        <!-- Registration verification -->
         <activity
             android:name=".VerificationActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
-        <!-- NEW password-recovery flow -->
+        <!-- Password recovery -->
         <activity
             android:name=".PasswordRecoveryActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".RecoveryVerificationActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".ResetPasswordActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".VerifyCodeActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Student features -->
         <activity
             android:name=".MyClassesActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".TimetableActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".AddTimetableActivity"
+            android:exported="false" />
+
         <activity
             android:name=".AssignmentsActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".LabGroupsActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+        <!-- Lecturer portal -->
         <activity
             android:name=".LecturerActivity"
             android:exported="false" />
@@ -88,15 +115,32 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
+        <!-- Profile and resources -->
         <activity
-            android:name=".VerifyCodeActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            android:name=".ProfileActivity"
+            android:exported="false" />
 
         <activity
-            android:name=".ForgotPasswordActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            android:name=".ResourcesActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ChangePasswordActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".EditProfileActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".BackupEmailActivity"
+            android:exported="false" />
+
+        <!-- Course registration -->
+        <activity
+            android:name=".CourseRegistrationActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
